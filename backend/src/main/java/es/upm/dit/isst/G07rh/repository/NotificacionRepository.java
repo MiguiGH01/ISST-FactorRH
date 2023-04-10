@@ -4,6 +4,6 @@ import org.springframework.data.repository.CrudRepository;
 
 import es.upm.dit.isst.G07rh.model.*;
 
-public interface TrabajadorRepository extends CrudRepository<TRABAJADOR, String> {
+public interface NotificacionRepository extends CrudRepository<NOTIFICACION, Long> {
      
 }
