@@ -1,5 +1,7 @@
 import React from 'react';
+import './../App.css';
 import { Link } from 'react-router-dom';
+import { Row } from 'react-bootstrap';
 
 const Home = (props) => {
     const empleados = props.empleados;
@@ -20,16 +22,30 @@ const Home = (props) => {
         window.location.href = '/contactos';
     }
 
+    const handleNotificaciones = () => {
+        window.location.href = '/notificaciones';
+    }
+
     /*const empleados = props.empleados.map((empleado) => {
         return <li>{empleado.nombre}</li>
     }) */
 
     return (
         <div style={{display:"flex", flexDirection:"column", justifyContent: "center", alignContent:"center", margin:"auto"}}>
-            <button className="btn btn-primary" style={{margin:50, height:100, width:600}} onClick={handleHorarios}>Control de horarios</button>
-            <button className="btn btn-primary" style={{margin:50, height:100, width:600}} onClick={handleAusencias}>Control de ausencias</button>
-            <button className="btn btn-primary" style={{margin:50, height:100, width:600}} onClick={handleNominas}>Gestión de nómina</button>
-            <button className="btn btn-primary" style={{margin:50, height:100, width:600}} onClick={handleContactos}>Contactos</button>
+
+            <img className="logo" style={{display:"flex", flexDirection:"column", justifyContent: "center", alignContent:"center", margin:"auto", width: "100px", height: "100px"}} src={process.env.PUBLIC_URL + "logo192.png"} alt="logo" />
+
+            <h1 style={{textAlign:"center"}}>Bienvenido a la página principal</h1>
+
+            <div style={{display:"flex", flexDirection:"column", justifyContent: "center", alignContent:"space-around", margin:"auto"}}>
+                
+                <button className="btn btn-primary" style={{height:"10vh", width:"50vw",marginBottom:"2vh", marginTop:"2vh"}} onClick={handleHorarios}>Control de horarios</button>
+                <button className="btn btn-primary" style={{height:"10vh", width:"50vw",marginBottom:"2vh"}} onClick={handleAusencias}>Control de ausencias</button>
+                <button className="btn btn-primary" style={{height:"10vh", width:"50vw",marginBottom:"2vh"}} onClick={handleNominas}>Gestión de nómina</button>
+                <button className="btn btn-primary" style={{height:"10vh", width:"50vw",marginBottom:"2vh"}} onClick={handleContactos}>Contactos</button>
+                <button className="btn btn-primary" style={{height:"10vh", width:"50vw",marginBottom:"2vh"}} onClick={handleNotificaciones}>Notificaciones</button>
+            
+            </div>
         </div>
     )
 }

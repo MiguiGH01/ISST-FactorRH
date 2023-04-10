@@ -1,5 +1,6 @@
 import React from 'react';
 import { Text } from 'react';
+import { MDBContainer, MDBInput, MDBCheckbox, MDBBtn, MDBIcon, MDBRow, MDBCol, MDBCard ,MDBCardBody } from  'mdb-react-ui-kit';
 import { useState } from 'react';
 import { Route } from 'react-router-dom';
 import App from '../App';
@@ -14,10 +15,17 @@ const Login = (props) => {
   const [error, setError] = useState('');
 
 
+
+  
   const handleSubmit = (event) => {
     event.preventDefault();
     // Aquí puedes enviar los datos del formulario a un backend o un servicio de autenticación
-    if (username === 'usuario' && password === 'contraseña') {
+    
+    const usuarioCorrecto = trabajadorList.find((trabajadorItem) => {
+      return (trabajadorItem.email == username && trabajadorItem.contraseña == password);
+    });
+    
+    if (usuarioCorrecto) {
       // Si la autenticación es exitosa, redirigir al usuario a la página de inicio
       window.location.href = "/home" /*<Route path="../" element={<App />}> </Route>*/;
     } else {
@@ -26,6 +34,7 @@ const Login = (props) => {
     }
 
   };
+  
     const empleados = props.empleados;
 
     const mapa = empleados.map((empleado) => {
@@ -34,35 +43,35 @@ const Login = (props) => {
     )
     
     return (
-        <div>
-        {mapa}
-        <h2>Holaaaa</h2>
+    <div style={{display:"flex", flexDirection:"column", justifyContent: "center", alignContent:"center", margin:"auto", width:"40vw"}}>
+    <MDBContainer style={{marginTop:"10vh"}}>
 
+        <MDBRow className='d-flex justify-content-center align-items-center h-100'>
+          <MDBCol col='12'>
 
-        <form onSubmit={handleSubmit}>
-      <h2>Iniciar sesión</h2>
-      <div>
-        <label htmlFor="username">Nombre de usuario:</label>
-        <input
-          type="text"
-          id="username"
-          value={username}
-          onChange={(event) => setUsername(event.target.value)}
-        />
-      </div>
-      <div>
-        <label htmlFor="password">Contraseña:</label>
-        <input
-          type="password"
-          id="password"
-          value={password}
-          onChange={(event) => setPassword(event.target.value)}
-        />
-      </div>
-      <button type="submit" className="btn btn-primary"> Iniciar sesión </button>
-      {error && <div>{error}</div>}
-    </form>
-        </div>
+            <MDBCard className='bg-white my-5 mx-auto justify-content-center'>
+              <MDBCardBody className='p-5 w-100 d-flex flex-column'>
+
+                <h2 className="fw-bold mb-2 text-center">Inicia sesión</h2>
+                <br></br>
+
+                <MDBInput wrapperClass='mb-4 w-100' label='Correo' id='username' value={username} onChange={(event) => setUsername(event.target.value)} type='email' size="lg"/>
+                <MDBInput wrapperClass='mb-4 w-100' label='Contraseña' id='password' value={password} type='password' onChange={(event) => setPassword(event.target.value)} size="lg"/>
+
+                <button type="submit" className="btn btn-primary" onClick={handleSubmit}> Iniciar sesión </button>
+
+                <hr className="my-4" />
+
+                {error && <div style={{textAlign:"center"}}>{error}</div>} 
+
+              </MDBCardBody>
+            </MDBCard>
+
+          </MDBCol>
+        </MDBRow>
+
+    </MDBContainer>
+    </div>
     )
 }
 

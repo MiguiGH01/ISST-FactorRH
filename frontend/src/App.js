@@ -8,9 +8,14 @@ import AusenciasBajasVac from './components/AusenciasBajasVac';
 import Contactos from './components/Contactos';
 import Nominas from './components/Nominas';
 import Horarios from './components/Horarios';
+import Header from './components/Header';
+import Prueba from './components/Prueba';
+import Notificaciones from './components/Notificaciones';
+import Footer from './components/Footer';
 
 function App() {
     const [empleados, setEmpleados] = useState([]);
+    const [notificaciones, setNotificaciones] = useState([]);
 
     useEffect(() => {
         const formatDate = (isoDateString) => {
@@ -22,87 +27,35 @@ function App() {
         };
     
         const fetchEmpleados = async () => {
-            const response = await fetch('http://localhost:8080/empleados');
-            const empleadosData = await response.json();
-    
-            // Format the date for each fetched item
-            // const formattedNoticiasData = noticiasData.map((noticiaItem) => {
-            //    return {
-            //        ...noticiaItem,
-            //        fechaCreacion: formatDate(noticiaItem.fechaCreacion),
-            //    };
-            //});
+            const responseEmpleados = await fetch('http://localhost:8080/empleados');
+            const empleadosData = await responseEmpleados.json();
     
             setEmpleados(empleadosData/*formattedNoticiasData*/);
         };
 
-        /*
-        const fetchSugerencias = async () => {
-            const response = await fetch('http://localhost:8080/sugerencias');
-            const sugerenciasData = await response.json();
+        const fetchNotificaciones = async () => {
+            const responseNoticias = await fetch('http://localhost:8080/notificaciones');
+            const noticiasData = await responseNoticias.json();
     
-            // Format the date for each fetched item
-            const formattedSugerenciasData = sugerenciasData.map((sugerenciaItem) => {
-                return {
-                    ...sugerenciaItem,
-                    fechaCreacion: formatDate(sugerenciaItem.fechaCreacion),
-                };
-            });
-    
-            setSugerenciaslist(formattedSugerenciasData);
+            setNotificaciones(noticiasData/*formattedNoticiasData*/);
         };
 
 
-
-        const fetchComentario = async () => {
-            const response = await fetch('http://localhost:8080/sugerencia/1/');
-            const comentarioData = await response.json();
-    
-            // Format the date for each fetched item
-            const formattedComentarioData = comentarioData.map((comenatrioItem) => {
-                return {
-                    ...comenatrioItem
-                };
-            });
-    
-            setComentariolist(formattedComentarioData);
-        };
-        */
         fetchEmpleados();
+        fetchNotificaciones();
 
-        //fetchSugerencias();
-
-        //fetchComentario();
-    
-        /* Para refrescar periódicamente
-        const intervalNoticias = setInterval(fetchNoticias, 10000);
-        const intervalSuerencias = setInterval(fetchSugerencias, 10000);
-        const intervalComentario = setInterval(fetchSugerencias, 10000);
-        return () => {
-            clearInterval(intervalNoticias);
-            clearInterval(intervalSuerencias);
-            clearInterval(intervalComentario);
-        };
-        */
     }, []);
 
 
     return (
-        <div>
-            {/*<Navbar bg="light" expand="lg">
-                    <Container>
-                        <Navbar.Brand>tuComunidad</Navbar.Brand>
-                        <Navbar.Toggle aria-controls='basic-navbar-nav' />
-                        <Navbar.Collapse id="basic-navbar-nav">
-                            <Nav className="me-auto">
-                                <Nav.Link href="/noticias">Noticias</Nav.Link>
-                                <Nav.Link href="/sugerencias">Sugerencias</Nav.Link>
-                                <Nav.Link href="/contacto">Contactos</Nav.Link>
-                            </Nav>
-                        </Navbar.Collapse>
-                    </Container>
-            </Navbar>*/}
+        <div style={{
+            backgroundColor: '#F5FFFA',
+            backgroundRepeat: 'no-repeat',
+            backgroundSize: "cover",
+            height:"88vh"}}>
 
+                   
+                    
             <div class="contenedor-flexbox">
                 <Routes>
                     <Route path="/" element={<Login empleados={empleados}/>}></Route>
@@ -112,8 +65,17 @@ function App() {
                     <Route path="/contactos" element={<Contactos empleados={empleados}/>} />
                     <Route path="/nominas" element={<Nominas empleados={empleados}/>} />
                     <Route path="/horarios" element={<Horarios empleados={empleados}/>} />
+                    <Route path="/notificaciones" element={<Notificaciones notificaciones={notificaciones}/>} />
+                    <Route path="/prueba" element={<Prueba/>} />
                 </Routes>
             </div>
+            <Footer/>   
+           
+                {/* <div style={{backgroundColor: '#B0C4DE',
+                        backgroundRepeat: 'no-repeat'}}> */}
+            {/* <Footer/> */}
+            {/* </div> */}
+          
         </div>
 
     );

@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from "react-router-dom";
+import Liner from "./Liner";
+import {Row} from "react-bootstrap";
 
 const PedirAusencia = () => {
     const [titulo, setTitulo] = useState('');
@@ -41,7 +43,10 @@ const PedirAusencia = () => {
 
 
     return (
-        <div>
+        <div style={{display:"flex", flexDirection:"column", justifyContent: "center", alignContent:"center", margin:"auto"}}>
+               <Row>
+                <Liner/>
+                </Row>
             <h2>Crear nueva ausencia</h2>
             <form onSubmit={handleSubmit}>
                 <label htmlFor="titulo">Fecha de la Ausencia:</label>
