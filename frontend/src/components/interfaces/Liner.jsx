@@ -2,6 +2,7 @@ import React from 'react';
 import { Row, Col } from 'react-bootstrap';
 import logo from './../../assets/logo_factor_rh.png';
 
+
 const Liner = (props) => {
 
 
@@ -32,7 +33,7 @@ const Liner = (props) => {
     }
     return (
         <div style={{ display: "flex", flexDirection: "column", justifyContent: "center", alignContent: "center", margin: "auto" }}>
-            <Row>
+            <Row>   
                 <img className="logo" src={logo} style={{ display: "flex", justifyContent: "left", alignContent: "centre", height: "90px", width: "100px" }}  onClick={handleIMG} alt="logo" />
                 <button className="btn btn-primary" style={{ margin: 15, height: 50, width: 250 }} onClick={handleHorarios}>Control de horarios</button>
                 <button className="btn btn-primary" style={{ margin: 15, height: 50, width: 250 }} onClick={handleAusencias}>Control de ausencias</button>

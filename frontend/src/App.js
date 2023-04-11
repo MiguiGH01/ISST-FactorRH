@@ -17,6 +17,7 @@ import CrearTrabajador from './components/contactos/CrearTrabajador';
 
 function App() {
     const [empleados, setEmpleados] = useState([]);
+    const [empleados2, setEmpleados2] = useState([]);
     const [notificaciones, setNotificaciones] = useState([]);
 
     useEffect(() => {
@@ -35,6 +36,13 @@ function App() {
             setEmpleados(empleadosData/*formattedNoticiasData*/);
         };
 
+        const fetchEmpleados2 = async () => {
+            const responseEmpleados2 = await fetch('http://localhost:8080/empleadosv2');
+            const empleados2Data = await responseEmpleados2.json();
+    
+            setEmpleados2(empleados2Data/*formattedNoticiasData*/);
+        };
+
         const fetchNotificaciones = async () => {
             const responseNoticias = await fetch('http://localhost:8080/notificaciones');
             const noticiasData = await responseNoticias.json();
@@ -44,6 +52,7 @@ function App() {
 
 
         fetchEmpleados();
+        fetchEmpleados2();
         fetchNotificaciones();
 
     }, []);
@@ -64,7 +73,7 @@ function App() {
                     <Route path="/home" element={<Home empleados={empleados}/>} />
                     <Route path="/bajasyausencias" element={<AusenciasBajasVac empleados={empleados}/>} />
                     <Route path="/pedirausencia" element={<PedirAusencia empleados={empleados}/>} />
-                    <Route path="/contactos" element={<Contactos empleados={empleados}/>} />
+                    <Route path="/contactos" element={<Contactos empleados={empleados} empleados2={empleados2}/>} />
                     <Route path="/nominas" element={<Nominas empleados={empleados}/>} />
                     <Route path="/horarios" element={<Horarios empleados={empleados}/>} />
                     <Route path="/notificaciones" element={<Notificaciones notificaciones={notificaciones}/>} />

@@ -24,20 +24,20 @@ public class EmpleadoController {
         this.empleadoRepository = n;
     }
 
-    @CrossOrigin(origins = "http://localhost:3001")
+    @CrossOrigin(origins = "http://localhost:3000")
     @GetMapping("/empleadosv2")
     List<EMPLEADO> readAll(){
         return (List<EMPLEADO>) empleadoRepository.findAll();
     }
 
-    @CrossOrigin(origins = "http://localhost:3001")
+    @CrossOrigin(origins = "http://localhost:3000")
     @PostMapping("/empleadosv2")
     ResponseEntity<EMPLEADO> create(@RequestBody EMPLEADO newEmpleado) throws URISyntaxException {
         EMPLEADO res = empleadoRepository.save(newEmpleado);
         return ResponseEntity.created(new URI("/empleadosv2/" + res.getId())).body(res);
     }
 
-    @CrossOrigin(origins = "http://localhost:3001")
+    @CrossOrigin(origins = "http://localhost:3000")
     @PutMapping("/empleadosv2/{id}")
     ResponseEntity<EMPLEADO> update(@RequestBody EMPLEADO newEmpleado, @PathVariable long id) {
         return empleadoRepository.findById(id).map(empleado -> {

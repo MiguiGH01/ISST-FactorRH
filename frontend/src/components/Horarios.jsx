@@ -9,14 +9,16 @@ const Horarios = (props) => {
     const trabajadorList = props.empleados
 
     return (
-        <div class="contenedor-flexbox" style={{ display: "flex", flexDirection: "column", justifyContent: "center", alignContent: "center", margin: "auto" , overflowY: "auto", overflowX: "hidden"}}>
+        <div class="contenedor-flexbox" style={{ display: "flex", flexDirection: "column", justifyContent: "center", alignContent: "center", margin: "auto"}}>
             <Col>
                 <Row>
                     <Liner />
                 </Row>
                 <Row>
-                    <h2>Horarios de empleados</h2>
-                            
+                    <h2 style={{justifyContent: "center", alignContent: "center", display: "flex"}}>Horarios de empleados</h2>
+                </Row>
+                <Row>
+                    <div id="productosresultados" style={{ height: "68vh", overflowY: "auto", overflowX: "hidden" }}>
                         {trabajadorList.slice().reverse().map((trabajadorItem) => (
                             <Row className="my-2">
                             <Card className="flex-fill">
@@ -40,10 +42,9 @@ const Horarios = (props) => {
                                 </Card.Body>
                             </Card>
                             
-                            </Row>
-                            
+                            </Row>                     
                         ))}
-                        
+                    </div>     
                 </Row>
             </Col>
         </div>)

@@ -6,6 +6,7 @@ import Liner from "../interfaces/Liner";
 
 const Contactos = (props) => {
 const trabajadorList = props.empleados;
+const empleadosList = props.empleados2;
 
     // Estado para almacenar el filtro actua
     const [filtro, setFiltro] = useState("");
@@ -24,51 +25,68 @@ const trabajadorList = props.empleados;
         item.nombre.toLowerCase().includes(filtro.toLowerCase()) || item.email.toLowerCase().includes(filtro.toLowerCase()) 
     );
 
+    // Función de filtrado  v2
+    const filteredEmpleados = empleadosList.filter((item) =>
+    item.nombreCompleto.toLowerCase().includes(filtro.toLowerCase()) || item.correoElectronico.toLowerCase().includes(filtro.toLowerCase()) 
+    );
+
+
+    
+
     return (
-        <div class="contenedor-flexbox" style={{display:"flex", flexDirection:"column", justifyContent: "center", alignContent:"center", margin:"auto"}}>
+        <div class="contenedor-flexbox" style={{display:"flex", flexDirection:"column", justifyContent: "center", alignContent:"center", margin:"auto"}}>        
             <Row>
                 <Liner/>
             </Row>
-            <h2 id="catálogo" style={{justifyContent: "center", alignContent: "center", display: "flex"}}>Contactos de nuestros trabajadores</h2>
-            <div style={{display:"flex", flexDirection:"column", justifyContent: "center", alignContent:"center", margin:"auto"}}>
-                <Container >
-                <div className="formulario">
-                <Row className="g-2 text-center" border="success" style={{}}>
-                    <Col md >
-                        <button type="submit" className="btn btn-secondary" style={{marginBottom:"1vh"}} onClick={handleCrearTrabajador}> Añadir trabajador</button>
-                        <div className="funciones">
-                        <input  type="text" id="filtro" placeholder="Filtrar por nombre" value={filtro} onChange={handleFilterChange}
-                            style={{alignItems:'right', width: '30rem', marginBottom:"1vh"}}></input>
-                        </div>
-                    </Col>
-                 </Row>
-                </div>
-                </Container>
-            </div>
-
-            <ul>
-                <div id="productosresultados" style={{ height: "56vh", overflowY: "auto", overflowX: "hidden" }}>
-            {filteredItems.slice().reverse().map((trabajadorItem) => (
-                <Row className="my-2">
-                    <Card className="flex-fill">
-                        <Card.Body>
-                            <div class="row">
-                                    <div class="col-11">
-                                        <h2>Nombre: {trabajadorItem.nombre}</h2>
-                                        <p>Email: {trabajadorItem.email}</p>
-                                        <p>Teléfono: {trabajadorItem.telefono}</p>
-                                    </div>
-                                    <div class="col-1">
-                                    <button type="submit" className="btn btn-success" style={{marginBottom:"1vh", marginTop:"4vh"}}> Editar trabajador</button>
-                                    </div>
+            <Row>
+                <h2 id="catálogo" style={{justifyContent: "center", alignContent: "center", display: "flex"}}>Contactos de nuestros trabajadores</h2>
+                <div style={{display:"flex", flexDirection:"column", justifyContent: "center", alignContent:"center", margin:"auto"}}>
+                    <div className="formulario">
+                        <Row className="g-2 text-center" border="success">
+                            <Col md >
+                                <button type="submit" className="btn btn-primary" style={{marginBottom:"1vh"}} onClick={handleCrearTrabajador}> Añadir trabajador</button>
+                                <div className="funciones">
+                                <input  type="text" id="filtro" placeholder="Filtrar por nombre o correo" value={filtro} onChange={handleFilterChange}
+                                    style={{alignItems:'right', width: '30rem', marginBottom:"1vh"}}></input>
                                 </div>
-                        </Card.Body> 
-                    </Card>
-                </Row>
-            ))}
+                            </Col>
+                        </Row>
+                    </div>
                 </div>
-                </ul>
-         </div>
+            </Row>
+            <Row>
+                <div id="productosresultados" style={{ height: "56vh", overflowY: "auto", overflowX: "hidden" }}>
+                    {filteredEmpleados.slice().reverse().map((empleadosItem) => (
+                        <Col md>
+                            <Row className="my-2">
+                                <Card className="flex-fill">
+                                    <Card.Body>
+                                        <div class="row">
+                                                {empleadosItem.rec ? <h2>{empleadosItem.nombreCompleto} ⭐</h2> : <h2>{empleadosItem.nombreCompleto }</h2>}
+                                                <hr className="my-4" />
+                                                <div class="col-5">
+                                                    <p><b>Correo Electrónico:</b> {empleadosItem.correoElectronico}</p>
+                                                    <p><b>Telefono:</b> {empleadosItem.numeroTelefono}</p>
+                                                </div>
+                                                <div class="col-5">
+                                                    <p><b>Departamento:</b> {empleadosItem.departamento}</p>
+                                                    <p><b>Puesto:</b> {empleadosItem.puesto}</p>
+                                                </div>
+                                                <div class="col-1">
+                                                <button type="submit" className="btn btn-primary" style={{marginBottom:"3%"}}> Editar trabajador</button>
+                                                </div>
+                                            </div>
+                                    </Card.Body> 
+                                </Card>
+                            </Row>
+                        </Col>
+                    ))}
+                </div>
+            </Row>
+        </div>
+                
+            
+                
 
     )
 }

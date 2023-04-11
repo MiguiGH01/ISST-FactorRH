@@ -2,10 +2,10 @@ import React, { useState } from 'react';
 import { Link, useNavigate } from "react-router-dom";
 import { MDBContainer, MDBInput, MDBCheckbox, MDBBtn, MDBIcon, MDBRow, MDBCol, MDBCard, MDBCardBody } from 'mdb-react-ui-kit';
 import { Container, Col, Row, Card } from "react-bootstrap";
-import Liner from "../interfaces/Liner";
 
 
-const CrearTrabajador = () => {
+
+const CrearNotificacion = () => {
     const [id, setId] = useState('');
     const [nombreCompleto, setNombreCompleto] = useState('');
     const [numeroTelefono, setNumeroTelefono] = useState('');
@@ -58,7 +58,7 @@ const CrearTrabajador = () => {
 
     const handleCheckboxChange = (event) => {
         setRec(event.target.checked); // Actualiza el estado con el valor de la casilla de verificación
-      }
+      };
 
 
     return (
@@ -105,4 +105,4 @@ const CrearTrabajador = () => {
 
 
 
-export default CrearTrabajador;
+export default CrearNotificacion;

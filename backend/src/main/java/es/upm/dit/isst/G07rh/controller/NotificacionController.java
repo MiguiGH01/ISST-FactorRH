@@ -25,20 +25,20 @@ public class NotificacionController {
         this.notificacionRepository = n;
     }
 
-    @CrossOrigin(origins = "http://localhost:3001")
+    @CrossOrigin(origins = "http://localhost:3000")
     @GetMapping("/notificaciones")
     List<NOTIFICACION> readAll(){
         return (List<NOTIFICACION>) notificacionRepository.findAll();
     }
 
-    @CrossOrigin(origins = "http://localhost:3001")
+    @CrossOrigin(origins = "http://localhost:3000")
     @PostMapping("/notificaciones")
     ResponseEntity<NOTIFICACION> create(@RequestBody NOTIFICACION newNotificacion) throws URISyntaxException {
         NOTIFICACION res = notificacionRepository.save(newNotificacion);
         return ResponseEntity.created(new URI("/empleados/" + res.getId())).body(res);
     }
 
-    @CrossOrigin(origins = "http://localhost:3001")
+    @CrossOrigin(origins = "http://localhost:3000")
     @PutMapping("/notificaciones/{id}")
     ResponseEntity<NOTIFICACION> update(@RequestBody NOTIFICACION newNotificacion, @PathVariable long id) {
         return notificacionRepository.findById(id).map(notificacion -> {
