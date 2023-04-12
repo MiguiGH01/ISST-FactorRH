@@ -4,6 +4,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -15,12 +16,16 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import es.upm.dit.isst.G07rh.model.EMPLEADO;
+import es.upm.dit.isst.G07rh.model.HORARIOS;
 import es.upm.dit.isst.G07rh.repository.EmpleadoRepository;
 
 @RestController
 public class EmpleadoController {
+
+    @Autowired
     private final  EmpleadoRepository empleadoRepository;
-     public EmpleadoController(EmpleadoRepository n)  {
+
+    public EmpleadoController(EmpleadoRepository n)  {
         this.empleadoRepository = n;
     }
 
@@ -44,5 +49,12 @@ public class EmpleadoController {
             empleadoRepository.save(empleado);
             return ResponseEntity.ok().body(empleado);            
         }).orElse(new ResponseEntity<EMPLEADO>(HttpStatus.NOT_FOUND));
+    }
+
+    @CrossOrigin(origins = "http://localhost:3000")
+    @GetMapping("/empleadosv2/{empleadoId}/horarios")
+    public List<HORARIOS> obtenerHorariosDeEmpleado(@PathVariable Long empleadoId) {
+        EMPLEADO empleado = empleadoRepository.findById(empleadoId).get();
+        return empleado.getHorarios();
     }
 }

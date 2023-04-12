@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Route, Routes, Navigate } from 'react-router-dom';
+import { Route, Routes, Navigate, useNavigation } from 'react-router-dom';
 import './App.css';
 import Login from './components/interfaces/Login';
 import Home from './components/interfaces/Home';
@@ -7,14 +7,14 @@ import PedirAusencia from './components/ausencias/PedirAusencia';
 import AusenciasBajasVac from './components/ausencias/AusenciasBajasVac';
 import Contactos from './components/contactos/Contactos';
 import Nominas from './components/Nominas';
-import Horarios from './components/Horarios';
+import Horarios from './components/horarios/Horarios';
+import HorariosEmpleados from './components/horarios/HorariosEmpleados';
 import Header from './components/interfaces/Header';
 import Notificaciones from './components/Notificaciones/Notificaciones';
 import Footer from './components/interfaces/Footer';
 import CrearNotificacion from './components/Notificaciones/CrearNotificacion';
 import Liner from './components/interfaces/Liner';
 import CrearTrabajador from './components/contactos/CrearTrabajador';
-import EditarEmpleado from './components/contactos/EditarEmpleado';
 
 function App() {
     const [empleados, setEmpleados] = useState([]);
@@ -76,11 +76,11 @@ function App() {
                     <Route path="/pedirausencia" element={<PedirAusencia empleados={empleados}/>} />
                     <Route path="/contactos" element={<Contactos empleados={empleados} empleados2={empleados2}/>} />
                     <Route path="/nominas" element={<Nominas empleados={empleados}/>} />
-                    <Route path="/horarios" element={<Horarios empleados={empleados}/>} />
+                    <Route path="/horarios" element={<Horarios empleados={empleados2}/>} />
+                    <Route path="/horarios/:idHorario" element={<HorariosEmpleados empleados2={empleados2}/>} />
                     <Route path="/notificaciones" element={<Notificaciones notificaciones={notificaciones}/>} />
                     <Route path="/publicarnotificacion" element={<CrearNotificacion/>} />
                     <Route path="/crearTrabajador"element={<CrearTrabajador/>} />
-                    <Route path="/editarEmpleado"element={<EditarEmpleado empleados2={empleados2}/>} />
                 </Routes>
             </div>
              

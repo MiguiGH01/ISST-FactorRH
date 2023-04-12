@@ -1,5 +1,8 @@
 package es.upm.dit.isst.G07rh;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
+
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -61,6 +64,30 @@ public class G07rhApplication {
 			empleadoRepository.save(new EMPLEADO(
 				null, "Empleado3", "000000003", "empleado3@gmail.com", "0", "Data", "Experto", false
 			));			
+		};
+	}
+
+	@Bean
+	public CommandLineRunner initialHoraiosData(HorariosRepository horarioRepository, EmpleadoRepository empleadoRepository) {
+		return (args) -> {	
+			horarioRepository.save(new HORARIOS(
+				LocalDate.of(2023, 4, 12), LocalTime.of(9, 0, 12), LocalTime.of(13, 0, 12), LocalTime.of(9, 0, 0), LocalTime.of(13, 0, 0), empleadoRepository.findById(1L).get()
+			));	
+			horarioRepository.save(new HORARIOS(
+				LocalDate.of(2023, 4, 13), LocalTime.of(9, 1, 22), LocalTime.of(13, 4, 1), LocalTime.of(9, 0, 0), LocalTime.of(13, 0, 0), empleadoRepository.findById(1L).get()
+			));	
+			horarioRepository.save(new HORARIOS(
+				LocalDate.of(2023, 4, 12), LocalTime.of(9, 0, 12), LocalTime.of(12, 0, 12), LocalTime.of(9, 0, 0), LocalTime.of(12, 0, 0), empleadoRepository.findById(2L).get()
+			));	
+			horarioRepository.save(new HORARIOS(
+				LocalDate.of(2023, 4, 13), LocalTime.of(9, 1, 22), LocalTime.of(12, 4, 1), LocalTime.of(9, 0, 0), LocalTime.of(12, 0, 0), empleadoRepository.findById(2L).get()
+			));	
+			horarioRepository.save(new HORARIOS(
+				LocalDate.of(2023, 4, 12), LocalTime.of(10, 0, 12), LocalTime.of(14, 0, 12), LocalTime.of(10, 0, 0), LocalTime.of(14, 0, 0), empleadoRepository.findById(3L).get()
+			));	
+			horarioRepository.save(new HORARIOS(
+				LocalDate.of(2023, 4, 13), LocalTime.of(10, 1, 22), LocalTime.of(14, 4, 1), LocalTime.of(10, 0, 0), LocalTime.of(14, 0, 0), empleadoRepository.findById(3L).get()
+			));	
 		};
 	}
 

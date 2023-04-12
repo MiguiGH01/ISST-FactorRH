@@ -16,15 +16,8 @@ const empleadosList = props.empleados2;
         setFiltro(event.target.value);
     };
 
-   
-
     const handleCrearTrabajador = () => {
         window.location.href = '/crearTrabajador';
-    }
-
-    const handleEditarEmpleado = () => {
-      
-      window.location.href = '/editarEmpleado';
     }
 
     // Función de filtrado
@@ -36,8 +29,6 @@ const empleadosList = props.empleados2;
     const filteredEmpleados = empleadosList.filter((item) =>
     item.nombreCompleto.toLowerCase().includes(filtro.toLowerCase()) || item.correoElectronico.toLowerCase().includes(filtro.toLowerCase()) 
     );
-
-    
 
 
     
@@ -74,7 +65,7 @@ const empleadosList = props.empleados2;
                                                 {empleadosItem.rec ? <h2>{empleadosItem.nombreCompleto} ⭐</h2> : <h2>{empleadosItem.nombreCompleto }</h2>}
                                                 <hr className="my-4" />
                                                 <div class="col-5">
-                                                    <p><b>Correo Electrónico:</b> {empleadosItem.correoElectronico} </p>
+                                                    <p><b>Correo Electrónico:</b> {empleadosItem.correoElectronico}</p>
                                                     <p><b>Telefono:</b> {empleadosItem.numeroTelefono}</p>
                                                 </div>
                                                 <div class="col-5">
@@ -82,7 +73,7 @@ const empleadosList = props.empleados2;
                                                     <p><b>Puesto:</b> {empleadosItem.puesto}</p>
                                                 </div>
                                                 <div class="col-1">
-                                                <button type="submit" className="btn btn-primary" style={{marginBottom:"3%"}} onClick={handleEditarEmpleado(empleadosItem)}> Editar trabajador</button>
+                                                <button type="submit" className="btn btn-primary" style={{marginBottom:"3%"}}> Editar trabajador</button>
                                                 </div>
                                             </div>
                                     </Card.Body> 

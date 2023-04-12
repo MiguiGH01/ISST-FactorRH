@@ -1,13 +1,16 @@
 package es.upm.dit.isst.G07rh.model;
 
+import java.util.List;
+
 import javax.persistence.*;
+
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
 public class EMPLEADO {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     private String nombreCompleto;
     private String numeroTelefono;
     private String correoElectronico;
@@ -15,6 +18,25 @@ public class EMPLEADO {
     private String departamento;
     private String puesto;
     private Boolean rec;
+    @OneToMany(mappedBy = "empleado", cascade = CascadeType.ALL)
+    @JsonManagedReference
+    private List<HORARIOS> horarios;
+
+    // Constructor vacío
+    public EMPLEADO() {
+    }
+
+    // Constructor con todos los campos
+    public EMPLEADO(Long id, String nombreCompleto, String numeroTelefono, String correoElectronico, String password, String departamento, String puesto, Boolean rec) {
+        this.id = id;
+        this.nombreCompleto = nombreCompleto;
+        this.numeroTelefono = numeroTelefono;
+        this.correoElectronico = correoElectronico;
+        this.password = password;
+        this.departamento = departamento;
+        this.puesto = puesto;
+        this.rec = rec; 
+    }
 
     public Long getId() {
         return this.id;
@@ -82,22 +104,12 @@ public class EMPLEADO {
         this.rec = rec; 
     }
 
-    // Constructor vacío
-    public EMPLEADO() {
+    public List<HORARIOS> getHorarios() {
+        return this.horarios;
     }
 
-    // Constructor con todos los campos
-    public EMPLEADO(Long id, String nombreCompleto, String numeroTelefono, String correoElectronico, String password, String departamento, String puesto, Boolean rec) {
-        this.id = id;
-        this.nombreCompleto = nombreCompleto;
-        this.numeroTelefono = numeroTelefono;
-        this.correoElectronico = correoElectronico;
-        this.password = password;
-        this.departamento = departamento;
-        this.puesto = puesto;
-        this.rec = rec; 
+    public void setHorarios(List<HORARIOS> horarios) {
+        this.horarios = horarios;
     }
-
-
 
 }
