@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -46,10 +47,26 @@ public class EmpleadoController {
     @PutMapping("/empleadosv2/{id}")
     ResponseEntity<EMPLEADO> update(@RequestBody EMPLEADO newEmpleado, @PathVariable long id) {
         return empleadoRepository.findById(id).map(empleado -> {
+            empleado.setNombreCompleto(newEmpleado.getNombreCompleto());
+            empleado.setNumeroTelefono(newEmpleado.getNumeroTelefono());
+            empleado.setCorreoElectronico(newEmpleado.getCorreoElectronico());
+            empleado.setPassword(newEmpleado.getPassword());
+            empleado.setRec(newEmpleado.getRec());
+            empleado.setDepartamento(newEmpleado.getDepartamento());
+            empleado.setPuesto(newEmpleado.getPuesto());
             empleadoRepository.save(empleado);
             return ResponseEntity.ok().body(empleado);            
         }).orElse(new ResponseEntity<EMPLEADO>(HttpStatus.NOT_FOUND));
     }
+
+    @CrossOrigin(origins = "http://localhost:3000")
+    @DeleteMapping("/empleadosv2/{id}")
+    ResponseEntity<?> delete(@PathVariable Long id) {
+    return empleadoRepository.findById(id).map(empleado -> {
+        empleadoRepository.delete(empleado);
+        return ResponseEntity.ok().build();
+    }).orElse(ResponseEntity.notFound().build());
+}
 
     @CrossOrigin(origins = "http://localhost:3000")
     @GetMapping("/empleadosv2/{empleadoId}/horarios")

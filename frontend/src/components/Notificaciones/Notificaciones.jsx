@@ -17,30 +17,15 @@ const Notificaciones = (props) => {
         window.location.href = '/publicarnotificacion';
     }
 
-    const handlerEliminarNotificacion = async (e) => {
-    
-
-        const notificacionItem = {
-            id,
-            titulo,
-            descripcion
-        };
-
+    // Función que elimina empleados
+    const eliminarNotificacion = async (id) => {
         const requestOptions = {
             method: 'DELETE',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-                ...notificacionItem.id
-            }),
         };
-        
-        await fetch('http://localhost:8080/notificaciones', requestOptions);
-        setId('');
-        setTitulo('');
-        setDescripcion('');
-        window.location.href = '/notificaciones';
-    }
+        await fetch(`http://localhost:8080/notificaciones/${id}`, requestOptions);
 
+        window.location.href = '/notificaciones';
+        };
 
     return (
         <div class="contenedor-flexbox" style={{display:"flex", flexDirection:"column", justifyContent: "center", alignContent:"center", margin:"auto"}}>
@@ -57,6 +42,7 @@ const Notificaciones = (props) => {
                                 <Col md >
                                     <button type="submit" className="btn btn-primary" style={{marginBottom:"1vh"}} onClick={handleCrearNoticia}> Añadir notificación</button>
                                 </Col>
+
                             </Row>
                         </div>
                     </div>
@@ -66,18 +52,23 @@ const Notificaciones = (props) => {
                         {notificacionesList.slice().reverse().map((notificacionItem) => (
                             <Col md >
                                 <Row className="my-2" >
-                                <Card className="flex-fill">
-                                    <Card.Body>
-                                        <Card.Title>{notificacionItem.titulo}</Card.Title>
-                                        <Card.Text>
-                                            <Col key={notificacionItem.id}>
-                                                {notificacionItem.descripcion}
-                                            </Col>
-                                            
-                                        </Card.Text>
-                                    <button type="submit" className="btn btn-primary" style={{ marginBottom: "1vh" }} onClick={handlerEliminarNotificacion}> Publicar Notificacion</button>
-                                    </Card.Body>
-                                </Card>
+                                    <Card className="flex-lg-fill">
+                                        <Card.Body>
+                                            <div class="row">
+                                                <h2>{notificacionItem.titulo}</h2>
+                                                <hr className="my-4" />
+                                                <div class="col-10">
+                                                    {notificacionItem.descripcion}
+                                                </div>
+                                                <div class="col-1"> 
+                                                    <button className="btn btn-primary" style={{marginBottom:"1vh"}}>Publicar notificación</button>
+                                                </div>
+                                                <div class="col-1">
+                                                    <button className="btn btn-danger" style={{marginBottom:"1vh"}} onClick={() => eliminarNotificacion(notificacionItem.id)}>Eliminar notificación</button>
+                                                </div>
+                                            </div>
+                                        </Card.Body>
+                                    </Card>
                                 </Row>
                             </Col>
                         ))}

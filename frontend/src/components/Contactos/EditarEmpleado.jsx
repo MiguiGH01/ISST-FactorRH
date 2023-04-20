@@ -47,7 +47,7 @@ const EditarEmpleado = (props) => {
                 }),
             };
             
-            await fetch('http://localhost:8080/empleadosv2', requestOptions);
+            await fetch(`http://localhost:8080/empleadosv2/${idEmpleado}`, requestOptions);
 
             setNombreCompleto('');
             setNumeroTelefono('');

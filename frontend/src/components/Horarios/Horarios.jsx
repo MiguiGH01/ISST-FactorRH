@@ -49,7 +49,7 @@ const Horarios = (props) => {
                 </Row>
                 </Col>   
                 <Row>
-                    <div id="productosresultados" style={{ height: "68vh", overflowY: "auto", overflowX: "hidden" }}>
+                    <div id="productosresultados" style={{ height: "62vh", overflowY: "auto", overflowX: "hidden" }}>
                         {filteredEmpleados.slice().reverse().map((empleadosItem) => (
                             <Row className="my-2">
                             <Card className="flex-fill">

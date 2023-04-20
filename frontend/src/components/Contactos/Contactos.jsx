@@ -18,9 +18,20 @@ const empleadosList = props.empleados2;
         setFiltro(event.target.value);
     };
 
+    // Función que crea empleados
     const handleCrearTrabajador = () => {
         window.location.href = '/crearTrabajador';
     }
+
+    // Función que elimina empleados
+    const eliminarEmpleado = async (id) => {
+        const requestOptions = {
+          method: 'DELETE',
+        };
+        await fetch(`http://localhost:8080/empleadosv2/${id}`, requestOptions);
+
+        window.location.href = '/contactos';
+      };
 
     // Función de filtrado
     const filteredItems = trabajadorList.filter((item) =>
@@ -74,10 +85,13 @@ const empleadosList = props.empleados2;
                                                     <p><b>Departamento:</b> {empleadosItem.departamento}</p>
                                                     <p><b>Puesto:</b> {empleadosItem.puesto}</p>
                                                 </div>
+                                                <div class="col-1">    
+                                                    <Link to={`/editarEmpleado/${empleadosItem.id}`}>
+                                                        <button className="btn btn-primary" style={{marginBottom:"1vh"}}>Editar datos empleado</button>
+                                                    </Link>
+                                                </div>
                                                 <div class="col-1">
-                                                <Link to={`/editarEmpleado/${empleadosItem.id}`}>
-                                                     <button className="btn btn-primary" style={{marginBottom:"1vh"}}>Editar datos empleado</button>
-                                                </Link>
+                                                    <button className="btn btn-danger" style={{marginBottom:"1vh"}} onClick={() => eliminarEmpleado(empleadosItem.id)}>Eliminar datos empleado</button>
                                                 </div>
                                             </div>
                                     </Card.Body> 
