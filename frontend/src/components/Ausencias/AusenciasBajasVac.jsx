@@ -1,112 +1,76 @@
-import { Container, Col, Row } from "react-bootstrap";
+import { Container, Col, Row, Button, Form } from "react-bootstrap";
 import Card from 'react-bootstrap/Card';
 import { useState } from "react";
-import Liner from "../Interfaces/Liner";
+import Liner from '../Interfaces/Liner';
+import { Link, useNavigation } from 'react-router-dom';
 
 const AusenciasBajasVac = (props) => {
-    const trabajadorList = props.empleados;
+    
+    const empleadoList = props.empleados;
 
-    const [estadoVac, setEstadoVac] = useState('');
-    const [estadoBaj, setEstadBaj] = useState('');
-    const [estadoAus, setEstadoAus] = useState('');
+    // Estado para almacenar el filtro actua
     const [filtro, setFiltro] = useState("");
 
-    const handleAumentarVac = (trabajadorItem) => {
-        setEstadoVac(trabajadorItem.vacaciones++);
-    }
 
-    const handleAumentarBaj = (trabajadorItem) => {
-        setEstadBaj(trabajadorItem.bajas++);
-       
-    }
+ // Función para actualizar el filtro
+    const handleFilterChange = (event) => {
+      setFiltro(event.target.value);
+    };
 
-    const handleAumentarAus = (trabajadorItem) => {
-        setEstadoAus(trabajadorItem.ausencias++);
-    }
-    const handleDisminuirVac = (trabajadorItem) => {
-        setEstadoVac(trabajadorItem.vacaciones--);
-    }
+// Función de filtrado  v2
+const filteredEmpleados = empleadoList.filter((item) =>
+item.nombreCompleto.toLowerCase().includes(filtro.toLowerCase()) || item.correoElectronico.toLowerCase().includes(filtro.toLowerCase()) 
+);
+   
 
-    const handleDisminuirBaj = (trabajadorItem) => {
-        setEstadBaj(trabajadorItem.bajas--);
-       
-    }
-
-    const handleDisminuirAus = (trabajadorItem) => {
-        setEstadoAus(trabajadorItem.ausencias--);
-    }
+  
     
-         // Función para actualizar el filtro
- const handleFilterChange = (event) => {
-        setFiltro(event.target.value);
- };
-    
-    // Función de filtrado  v2
-    const filteredEmpleados = trabajadorList.filter((item) =>
-    item.nombre.toLowerCase().includes(filtro.toLowerCase()) || item.email.toLowerCase().includes(filtro.toLowerCase()) 
-    );
+        
+
 
     return (
 
         <div class="contenedor-flexbox" style={{display:"flex", flexDirection:"column", justifyContent: "center", alignContent:"center", margin:"auto"}}>
-            
-            <Col>
+           <Col>
                 <Row>
-                    <Liner/>
+                    <Liner />
                 </Row>
+                <Col md>
                 <Row>
-                    <h2 style={{justifyContent: "center", alignContent: "center", display: "flex"}}>Control de ausencias, bajas y vacaciones</h2>
+                    <h2 style={{justifyContent: "center", alignContent: "center", display: "flex"}}>Control de ausencias, bajas y vacaciones de los trabajadores</h2>
+                   
                     <div className="funciones" style={{justifyContent: "center", alignContent: "center", display: "flex"}}>
-                                <input  type="text" id="filtro" placeholder="Filtrar por nombre o correo" value={filtro} onChange={handleFilterChange}
-                                    style={{alignItems:'right', width: '30rem', marginBottom:"1vh"}}></input>
-                                </div>
-                </Row>
-                <Row>
-                    <div id="productosresultados" style={{ height: "68vh", overflowY: "auto", overflowX: "hidden" }}>
-                        {filteredEmpleados.slice().reverse().map((trabajadorItem) => (
-                            <Row className="my-2">
-                                <Card className="flex-fill">
-                                    <Card.Body>
-                                        <div>
-                                            <Col>
-                                                <h2>Nombre: {trabajadorItem.nombre}</h2>
-                                            </Col>
-                                        </div>
-                                        <div>
-                                            <Col>
-                                                <p>
-                                                Ausencias:{trabajadorItem.ausencias}
-                                                <button className="btn btn-primary" onClick={() => handleDisminuirAus(trabajadorItem)} style={{marginLeft: "50px", alignContent: "right", justifyContent: "right", textAlign: "right"}}>-1</button>
-                                                <button className="btn btn-primary" onClick={() => handleAumentarAus(trabajadorItem)} style={{marginLeft: "50px", alignContent: "right"}}>+1</button>
-
-                                                </p>
-                                            </Col>
-                                        </div>
-                                        <div>
-                                            <Col>
-                                                <p>
-                                                Bajas:{trabajadorItem.bajas}
-                                                <button className="btn btn-primary" onClick={() => handleDisminuirBaj(trabajadorItem)} style={{marginLeft: "79px"}}>-1</button>
-                                                <button className="btn btn-primary" onClick={() => handleAumentarBaj(trabajadorItem)} style={{marginLeft: "50px"}}>+1</button>
-                                                </p>
-                                            </Col>
-                                        </div>
-                                        <div>
-                                            <Col>
-                                                <p>
-                                                Vacaciones:{trabajadorItem.vacaciones}
-                                                <button className="btn btn-primary" onClick={() => handleDisminuirVac(trabajadorItem)} style={{marginLeft: "33px"}}>-1</button>
-                                                <button className="btn btn-primary" onClick={() => handleAumentarVac(trabajadorItem)} style={{marginLeft: "50px"}}>+1</button>
-                                                </p>
-                                                </Col>
-                                        </div>
-                                    </Card.Body>
-                                </Card>
-                            </Row>
-                        ))}
+                         <input  type="text" id="filtro" placeholder="Filtrar por nombre o correo" value={filtro} onChange={handleFilterChange}
+                             style={{alignItems:'right', width: '30rem', marginBottom:"1vh"}}></input>
                     </div>
+                           
                 </Row>
-            </Col>
+                </Col>   
+                <Row>
+                    <div id="productosresultados" style={{ height: "62vh", overflowY: "auto", overflowX: "hidden" }}>
+                        {filteredEmpleados.slice().reverse().map((empleadosItem) => (
+                            <Row className="my-2">
+                            <Card className="flex-fill">
+                                <Card.Body> 
+                                    <div class="row">  
+                                        <div class="col-11" style={{ display: "flex", flexDirection: "column", justifyContent: "center", alignContent: "center", margin: "auto"}}> 
+                                        {empleadosItem.rec ? <h2>{empleadosItem.nombreCompleto} ⭐</h2> : <h2>{empleadosItem.nombreCompleto }</h2>}
+                                        </div>
+                                        <div class="col-1">
+                                        <Link to={`/bajasyausencias/${empleadosItem.id}`}>
+                                            <button className="btn btn-primary" style={{marginBottom:"1vh"}}>Ver</button>
+                                        </Link>
+                                        </div>
+                                    </div>
+                                </Card.Body>
+                            </Card>
+                            
+                            </Row>                     
+                        ))}
+                    </div>     
+                </Row>
+            </Col> 
+           
         </div>
     );
 };

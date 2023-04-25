@@ -1,9 +1,8 @@
-import React from 'react';
-import { Text } from 'react';
-import { MDBContainer, MDBInput, MDBCheckbox, MDBBtn, MDBIcon, MDBRow, MDBCol, MDBCard, MDBCardBody } from 'mdb-react-ui-kit';
-import { useState } from 'react';
-import { Route } from 'react-router-dom';
-import App from './../../App.css';
+import React, {useEffect } from 'react';
+import { MDBContainer, MDBInput, MDBRow, MDBCol, MDBCard, MDBCardBody } from 'mdb-react-ui-kit';
+import { useState, useContext } from 'react';
+import { LoginContext } from '../../App';
+import { Navigate } from "react-router-dom";
 
 
 const Login = (props) => {
@@ -13,34 +12,36 @@ const Login = (props) => {
   const [username, setUsername] = useState('');
   const [cont, setCont] = useState('');
   const [error, setError] = useState('');
-
-
-
+  const [userLogged, setUserLogged] = useContext(LoginContext)
 
   const handleSubmit = (event) => {
     event.preventDefault();
     // Aquí puedes enviar los datos del formulario a un backend o un servicio de autenticación
 
-    const usuarioCorrecto = trabajadorList.find((trabajadorItem) => {
-      return (trabajadorItem.correoElectronico == username && trabajadorItem.password == cont && trabajadorItem.rec == true);
+    const esUsuarioCorrecto = trabajadorList.find((trabajadorItem) => {
+      return (trabajadorItem.correoElectronico === username && trabajadorItem.password === cont );//&& trabajadorItem.rec == true
     });
 
-    if (usuarioCorrecto) {
+    const usuarioCorrecto = trabajadorList.find((trabajadorItem) => {
+      if (trabajadorItem.correoElectronico === username && trabajadorItem.password === cont) {
+        return trabajadorItem;
+      }
+    });
+
+    if (esUsuarioCorrecto) {
       // Si la autenticación es exitosa, redirigir al usuario a la página de inicio
-      window.location.href = "/home" /*<Route path="../" element={<App />}> </Route>*/;
+      setUserLogged(JSON.stringify(usuarioCorrecto))
+      window.location.href = "/home"
     } else {
       // Si la autenticación falla, mostrar un mensaje de error
       setError('Usuario o contraseña incorrectos');
     }
-
+    
   };
 
-  // const empleados = props.empleados2;
-
-  //  const mapa = empleados.map((empleado) => {
-  //    return <li>{empleado.nombreCompleto}</li>
-  //  }
-  //  )
+  useEffect(() =>{
+    console.log(userLogged)
+  }, [userLogged]);
 
   return (
     <div style={{ display: "flex", flexDirection: "column", justifyContent: "center", alignContent: "center", margin: "auto", width: "40vw" }}>

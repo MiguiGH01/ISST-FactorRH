@@ -6,6 +6,7 @@ import { Link, useNavigation } from 'react-router-dom';
 
 
 const Horarios = (props) => {
+
     const empleadoList = props.empleados;
 
         // Estado para almacenar el filtro actua
@@ -13,7 +14,7 @@ const Horarios = (props) => {
 
     const handleCrearTrabajador = () => {
         window.location.href = '/horarios/';
-    }
+    };
 
      // Función para actualizar el filtro
      const handleFilterChange = (event) => {

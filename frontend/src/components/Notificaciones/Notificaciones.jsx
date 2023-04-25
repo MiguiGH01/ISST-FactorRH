@@ -57,11 +57,8 @@ const Notificaciones = (props) => {
                                             <div class="row">
                                                 <h2>{notificacionItem.titulo}</h2>
                                                 <hr className="my-4" />
-                                                <div class="col-10">
+                                                <div class="col-11">
                                                     {notificacionItem.descripcion}
-                                                </div>
-                                                <div class="col-1"> 
-                                                    <button className="btn btn-primary" style={{marginBottom:"1vh"}}>Publicar notificación</button>
                                                 </div>
                                                 <div class="col-1">
                                                     <button className="btn btn-danger" style={{marginBottom:"1vh"}} onClick={() => eliminarNotificacion(notificacionItem.id)}>Eliminar notificación</button>

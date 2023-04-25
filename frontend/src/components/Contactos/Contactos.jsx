@@ -33,11 +33,11 @@ const empleadosList = props.empleados2;
         window.location.href = '/contactos';
       };
 
-    // Función de filtrado
+   /* // Función de filtrado
     const filteredItems = trabajadorList.filter((item) =>
         item.nombre.toLowerCase().includes(filtro.toLowerCase()) || item.email.toLowerCase().includes(filtro.toLowerCase()) 
     );
-
+*/
     // Función de filtrado  v2
     const filteredEmpleados = empleadosList.filter((item) =>
     item.nombreCompleto.toLowerCase().includes(filtro.toLowerCase()) || item.correoElectronico.toLowerCase().includes(filtro.toLowerCase()) 
