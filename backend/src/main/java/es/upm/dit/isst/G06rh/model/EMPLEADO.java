@@ -21,6 +21,12 @@ public class EMPLEADO {
     @OneToMany(mappedBy = "empleado", cascade = CascadeType.ALL)
     @JsonManagedReference
     private List<HORARIOS> horarios;
+    @OneToMany(mappedBy = "empleado", cascade = CascadeType.ALL)
+    @JsonManagedReference
+    private List<NOMINA> nominas;
+    @OneToMany(mappedBy = "empleado", cascade = CascadeType.ALL)
+    @JsonManagedReference
+    private List<AUSENCIAS> ausencias;
 
     // Constructor vacío
     public EMPLEADO() {
@@ -110,6 +116,22 @@ public class EMPLEADO {
 
     public void setHorarios(List<HORARIOS> horarios) {
         this.horarios = horarios;
+    }
+
+     public List<NOMINA> getNominas() {
+        return this.nominas;
+    }
+
+    public void setNominas(List<NOMINA> nominas) {
+        this.nominas = nominas;
+    }
+
+     public List<AUSENCIAS> getAusencias() {
+        return this.ausencias;
+    }
+
+    public void setAusencias(List<AUSENCIAS> ausencias) {
+        this.ausencias = ausencias;
     }
 
 }
