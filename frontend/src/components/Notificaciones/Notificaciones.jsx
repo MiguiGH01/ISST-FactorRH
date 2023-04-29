@@ -2,15 +2,17 @@ import { Container, Col, Row } from "react-bootstrap";
 import Card from 'react-bootstrap/Card';
 import CrearNotificacion from "./CrearNotificacion";
 import Liner from "../Interfaces/Liner";
-import React, { useState } from 'react';
+import { useState, useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { MDBContainer, MDBInput, MDBCheckbox, MDBBtn, MDBIcon, MDBRow, MDBCol, MDBCard, MDBCardBody } from 'mdb-react-ui-kit';
+import { LoginContext } from '../../App';
 
 const Notificaciones = (props) => {
     const [id, setId] = useState('');
     const [titulo, setTitulo] = useState('');
     const [descripcion, setDescripcion] = useState('');
-    
+    const [userLogged, setUserLogged] = useContext(LoginContext);
+    const rec = userLogged ? JSON.parse(userLogged).rec : false;
     const notificacionesList = props.notificaciones;
 
     const handleCrearNoticia = () => {
@@ -28,6 +30,9 @@ const Notificaciones = (props) => {
         };
 
     return (
+        <div class="contenedor-flexbox" style={{display:"flex", flexDirection:"column", justifyContent: "center", alignContent:"center", margin:"auto"}}>
+        {rec 
+        ? 
         <div class="contenedor-flexbox" style={{display:"flex", flexDirection:"column", justifyContent: "center", alignContent:"center", margin:"auto"}}>
             
                 <Row>
@@ -74,6 +79,48 @@ const Notificaciones = (props) => {
                
             
         </div>
+        :
+        <div class="contenedor-flexbox" style={{display:"flex", flexDirection:"column", justifyContent: "center", alignContent:"center", margin:"auto"}}>
+            
+        <Row>
+            <Liner />
+        </Row>
+        {/* <VerNotificacion />   */}
+        <Row>    
+            <h2 style={{justifyContent: "center", alignContent: "center", display: "flex"}}>NOTIFICACIONES:</h2>                                     
+            <div style={{display:"flex", flexDirection:"column", justifyContent: "center", alignContent:"center", margin:"auto"}}>
+                <div className="formulario">
+             
+                </div>
+            </div>
+        </Row>
+        <Row>
+            <div id="noticias" style={{ height: "62vh", overflowY: "auto", overflowX: "hidden" }}>
+                {notificacionesList.slice().reverse().map((notificacionItem) => (
+                    <Col md >
+                        <Row className="my-2" >
+                            <Card className="flex-lg-fill">
+                                <Card.Body>
+                                    <div class="row">
+                                        <h2>{notificacionItem.titulo}</h2>
+                                        <hr className="my-4" />
+                                        <div class="col-11">
+                                            {notificacionItem.descripcion}
+                                        </div>
+                                        
+                                    </div>
+                                </Card.Body>
+                            </Card>
+                        </Row>
+                    </Col>
+                ))}
+            </div>
+        </Row>
+       
+        </div>
+        }
+</div>
+
     );
 };
 

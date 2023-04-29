@@ -1,20 +1,74 @@
-import React from 'react';
 import { useParams } from 'react-router-dom';
 import Liner from "../Interfaces/Liner";
 import Card from 'react-bootstrap/Card';
 import { Container, Col, Row, Button } from "react-bootstrap";
+import React, { useState } from 'react';
+import { Link, useNavigate } from "react-router-dom";
+import { MDBContainer, MDBInput, MDBCheckbox, MDBBtn, MDBIcon, MDBRow, MDBCol, MDBCard, MDBCardBody } from 'mdb-react-ui-kit';
 
-const AusenciasEmpleados = (props) => {
+
+const NominaEmpleados = (props) => {
     const { idNomina } = useParams(); // Accede a la ID desde props.match.params
 
-    const idNominaNumero = parseInt(idNomina, 10);
 
+    const [id, setId] = useState('');
+    const [nombreCompleto, setNombreCompleto] = useState('');
+    const [numeroTelefono, setNumeroTelefono] = useState('');
+    const [correoElectronico, setCorreoElectronico] = useState('');
+    const [password, setPassword]= useState('');
+    const [rec, setRec] = useState(false);
+    const [departamento, setDepartamento] = useState('');
+    const [puesto, setPuesto] = useState('');
+
+    const idNominaNumero = parseInt(idNomina, 10);
+ 
     const empleadoList = props.empleados2;
 
     const empleado = props.empleados2.find(empleado => empleado.id === idNominaNumero);
 
     if (!empleado) {
         return <div class="contenedor-flexbox" style={{ display: "flex", flexDirection: "column", justifyContent: "center", alignContent: "center", margin: "auto"}}>Empleado no encontrado</div>;
+      }
+
+      const handleCrearNomina = async (e) => {
+        e.preventDefault();
+        if (nombreCompleto.trim() && numeroTelefono.trim() && correoElectronico.trim() && password.trim() && departamento.trim() && puesto.trim()) {
+            
+
+            const empleadoItem = {
+                nombreCompleto,
+                numeroTelefono,
+                correoElectronico,
+                password,
+                rec,
+                departamento,
+                puesto
+            };
+
+            const requestOptions = {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    ...empleadoItem
+                }),
+            };
+            
+            await fetch('http://localhost:8080/empleadosv2', requestOptions);
+
+            setNombreCompleto('');
+            setNumeroTelefono('');
+            setCorreoElectronico('');
+            setPassword('');
+            setRec(false);
+            setDepartamento('');
+            setPuesto('');
+
+            window.location.href = '/nominas';
+        }
+    };
+
+    const handleCheckboxChange = (event) => {
+        setRec(event.target.checked); // Actualiza el estado con el valor de la casilla de verificación
       }
 
     return (
@@ -25,7 +79,42 @@ const AusenciasEmpleados = (props) => {
         <Row style={{ display: "flex", flexDirection: "column", justifyContent: "center", alignContent: "center", margin: "auto"}}>
             <h2><b>{empleado.nombreCompleto}</b></h2> 
         </Row>
-        <Row style={{ display: 'flex', flexWrap: 'wrap', overflowY: "auto", overflowX: "hidden" }}>
+        <Col md>
+                <div >
+                    <Row className="my-2">
+                        <Card className="flex-fill">
+                            <Card.Body>
+                                    <div class="row">
+                                        <h2>{empleado.nombreCompleto}</h2>
+                                        <hr className="my-4" />
+                                        <div class="col-3">
+                                            <p><b>Puesto:</b> {empleado.puesto}</p>
+                                        </div>
+                                        <div class="col-3">
+                                            <p><b>Departamento:</b> {empleado.departamento}</p>
+                                        </div>
+                                        <p><b>Descripción:</b> </p>
+                                        <Card.Text>
+                                        </Card.Text>
+                                    </div>
+                            </Card.Body>
+                        </Card>
+                    </Row>
+                </div>
+            </Col>
+        <Row>
+        <button type="submit" className="btn btn-primary" onClick={handleCrearNomina}>Subir nómina</button>
+
+        </Row>
+         
+    </div>
+    )
+
+}
+
+export default NominaEmpleados;
+
+/*<Row style={{ display: 'flex', flexWrap: 'wrap', overflowY: "auto", overflowX: "hidden" }}>
             <hr className="my-4"/>
             {empleado.horarios.map((horario, index) => (
             <div key={horario.id} style={{ flexBasis: '20%', padding: '1%'}}>
@@ -54,10 +143,4 @@ const AusenciasEmpleados = (props) => {
                     </Card>
                 </div>
             ))}
-        </Row>
-    </div>
-    )
-
-}
-
-export default AusenciasEmpleados;
+        </Row>*/

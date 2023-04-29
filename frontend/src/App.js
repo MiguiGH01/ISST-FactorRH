@@ -1,6 +1,7 @@
 import React, { useEffect, useState, createContext } from 'react';
 import { Route, Routes, Redirect} from 'react-router-dom';
 import './App.css';
+import PrivateRoute from './PrivateRoute'
 import AusenciasBajasVac from './components/Ausencias/AusenciasBajasVac';
 import Contactos from './components/Contactos/Contactos';
 import CrearTrabajador from './components/Contactos/CrearTrabajador';
@@ -35,7 +36,7 @@ function App() {
 
     useEffect(() => {
         localStorage.setItem('userLogged', userLogged);
-    }, [userLogged]);
+    }, [userLogged]);   
 
     useEffect(() => {
         const fetchData = async () => {
@@ -52,10 +53,29 @@ function App() {
         };
         fetchData();
       }, []);
-    
-      if (isLoading) {
-        return <div>Loading...</div>;
-      }
+
+      useEffect(() => {
+        const timeoutId = setTimeout(() => {
+          setUserLogged()
+        }, 1200000);
+      
+        return () => {
+          clearTimeout(timeoutId);
+        }
+      }, []);
+
+      useEffect(() => {
+        let timer = setTimeout(() => {
+          if (!userLogged && window.location.pathname !== '/') {
+            window.location.href = '/';
+          }
+        }, 1000);
+      
+        return () => {
+          clearTimeout(timer);
+        };
+      }, [userLogged]);
+      
 
 
     return (
@@ -69,19 +89,21 @@ function App() {
                 <div class="contenedor-flexbox">
                     <Routes>
                         <Route path="/" element={<Login empleados2={empleados2} />}></Route>
-                        <Route path="/home" element={<Home empleados2={empleados2}/>}></Route>
-                        <Route path="/bajasyausencias" element={<AusenciasBajasVac empleados={empleados2}/>} />
-                        <Route path="/contactos" element={<Contactos empleados2={empleados2}/>} />
-                        <Route path="/nominas" element={<Nominas empleados={empleados2}/>} />
-                        <Route path="/nominas/:idNomina" element={<NominasEmpleados empleados2={empleados2}/>} />
-                        <Route path="/horarios" element={<Horarios empleados={empleados2}/>} />
-                        <Route path="/horarios/:idHorario" element={<HorariosEmpleados empleados2={empleados2}/>} />
-                        <Route path="/bajasyausencias/:idBaja" element={<AusenciasEmpleados empleados2={empleados2}/>} />
-                        <Route path="/notificaciones" element={<Notificaciones notificaciones={notificaciones} empleados2={empleados2}/>} />
-                        <Route path="/publicarnotificacion" element={<CrearNotificacion/>} />
-                        <Route path="/crearTrabajador"element={<CrearTrabajador/>} />
-                        <Route path="/generarSolicitud/:idEmpleado "element={<FormularioAusencia empleados2={empleados2}/>} />
-                        <Route path="/editarEmpleado/:idEmpleado" element={<EditarEmpleado empleados2={empleados2}/>} />
+                        <Route element={<PrivateRoute />}>
+                            <Route path="/home" element={<Home empleados2={empleados2}/>}></Route>
+                            <Route path="/bajasyausencias" element={<AusenciasBajasVac empleados={empleados2}/>} />
+                            <Route path="/contactos" element={<Contactos empleados2={empleados2}/>} />
+                            <Route path="/nominas" element={<Nominas empleados={empleados2}/>} />
+                            <Route path="/nominas/:idNomina" element={<NominasEmpleados empleados2={empleados2}/>} />
+                            <Route path="/horarios" element={<Horarios empleados={empleados2}/>} />
+                            <Route path="/horarios/:idHorario" element={<HorariosEmpleados empleados2={empleados2}/>} />
+                            <Route path="/bajasyausencias/:idBaja" element={<AusenciasEmpleados empleados2={empleados2}/>} />
+                            <Route path="/notificaciones" element={<Notificaciones notificaciones={notificaciones} empleados2={empleados2}/>} />
+                            <Route path="/publicarnotificacion" element={<CrearNotificacion/>} />
+                            <Route path="/crearTrabajador"element={<CrearTrabajador/>} />
+                            <Route path="/generarSolicitud/:idEmpleado "element={<FormularioAusencia empleados2={empleados2}/>} />
+                            <Route path="/editarEmpleado/:idEmpleado" element={<EditarEmpleado empleados2={empleados2}/>} />
+                        </Route>
                     </Routes>
                 </div>
               

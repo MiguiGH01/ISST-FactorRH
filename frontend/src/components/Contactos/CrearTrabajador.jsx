@@ -6,6 +6,7 @@ import Liner from "../Interfaces/Liner";
 
 
 const CrearTrabajador = () => {
+    
     const [id, setId] = useState('');
     const [nombreCompleto, setNombreCompleto] = useState('');
     const [numeroTelefono, setNumeroTelefono] = useState('');

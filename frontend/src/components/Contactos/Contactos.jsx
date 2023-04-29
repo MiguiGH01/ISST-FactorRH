@@ -1,14 +1,19 @@
 import { Container, Col, Row, Button } from "react-bootstrap";
 import Card from 'react-bootstrap/Card';
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { FixedSizeList as List } from "react-window";
 import Liner from "../Interfaces/Liner";
 import { Link,  } from 'react-router-dom';
+import { LoginContext } from '../../App';
 
 
 const Contactos = (props) => {
 const trabajadorList = props.empleados;
 const empleadosList = props.empleados2;
+const [userLogged, setUserLogged] = useContext(LoginContext);
+
+const rec = userLogged ? JSON.parse(userLogged).rec : false;
+
 
     // Estado para almacenar el filtro actua
     const [filtro, setFiltro] = useState("");
@@ -47,6 +52,9 @@ const empleadosList = props.empleados2;
     
 
     return (
+    <div class="contenedor-flexbox" style={{display:"flex", flexDirection:"column", justifyContent: "center", alignContent:"center", margin:"auto"}}>
+        {rec 
+        ? 
         <div class="contenedor-flexbox" style={{display:"flex", flexDirection:"column", justifyContent: "center", alignContent:"center", margin:"auto"}}>        
             <Row>
                 <Liner/>
@@ -102,7 +110,55 @@ const empleadosList = props.empleados2;
                 </div>
             </Row>
         </div>
-                
+        :
+        <div class="contenedor-flexbox" style={{display:"flex", flexDirection:"column", justifyContent: "center", alignContent:"center", margin:"auto"}}>        
+        <Row>
+            <Liner/>
+        </Row>
+        <Row>
+            <h2 id="catálogo" style={{justifyContent: "center", alignContent: "center", display: "flex"}}>Contactos de nuestros empleados</h2>
+            <div style={{display:"flex", flexDirection:"column", justifyContent: "center", alignContent:"center", margin:"auto"}}>
+                <div className="formulario">
+                    <Row className="g-2 text-center" border="success">
+                        <Col md >
+                            <div className="funciones">
+                            <input  type="text" id="filtro" placeholder="Filtrar por nombre o correo" value={filtro} onChange={handleFilterChange}
+                                style={{alignItems:'right', width: '30rem', marginBottom:"1vh"}}></input>
+                            </div>
+                        </Col>
+                    </Row>
+                </div>
+            </div>
+        </Row>
+        <Row>
+            <div id="productosresultados" style={{ height: "64vh", overflowY: "auto", overflowX: "hidden" }}>
+                {filteredEmpleados.slice().reverse().map((empleadosItem) => (
+                    <Col md>
+                        <Row className="my-2">
+                            <Card className="flex-fill">
+                                <Card.Body>
+                                    <div class="row">
+                                            {empleadosItem.rec ? <h2>{empleadosItem.nombreCompleto} ⭐</h2> : <h2>{empleadosItem.nombreCompleto }</h2>}
+                                            <hr className="my-4" />
+                                            <div class="col-6">
+                                                <p><b>Correo Electrónico:</b> {empleadosItem.correoElectronico}</p>
+                                                <p><b>Telefono:</b> {empleadosItem.numeroTelefono}</p>
+                                            </div>
+                                            <div class="col-6">
+                                                <p><b>Departamento:</b> {empleadosItem.departamento}</p>
+                                                <p><b>Puesto:</b> {empleadosItem.puesto}</p>
+                                            </div>
+                                        </div>
+                                </Card.Body> 
+                            </Card>
+                        </Row>
+                    </Col>
+                ))}
+            </div>
+        </Row>
+    </div>
+        }
+    </div>           
             
                 
 

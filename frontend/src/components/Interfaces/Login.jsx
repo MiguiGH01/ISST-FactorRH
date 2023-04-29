@@ -14,6 +14,10 @@ const Login = (props) => {
   const [error, setError] = useState('');
   const [userLogged, setUserLogged] = useContext(LoginContext)
 
+  useEffect(() =>{
+    console.log(userLogged)
+  }, [userLogged]);
+
   const handleSubmit = (event) => {
     event.preventDefault();
     // Aquí puedes enviar los datos del formulario a un backend o un servicio de autenticación
@@ -39,9 +43,7 @@ const Login = (props) => {
     
   };
 
-  useEffect(() =>{
-    console.log(userLogged)
-  }, [userLogged]);
+
 
   return (
     <div style={{ display: "flex", flexDirection: "column", justifyContent: "center", alignContent: "center", margin: "auto", width: "40vw" }}>
