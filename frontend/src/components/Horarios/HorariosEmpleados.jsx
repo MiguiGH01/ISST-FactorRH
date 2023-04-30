@@ -47,7 +47,7 @@ const HorariosEmpleados = (props) => {
                                     <p>{horario.horaDefEntrada}</p>
                                     <p>{horario.horaSalida}</p>
                                     <p>{horario.horaDefSalida}</p>
-                                    <p>00:00:00</p>
+                                    <p>{horario.minutosTot}</p>
                                 </div>
                             </div>
                         </Card.Body> 
