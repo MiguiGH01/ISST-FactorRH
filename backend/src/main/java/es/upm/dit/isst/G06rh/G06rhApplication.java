@@ -18,13 +18,4 @@ public class G06rhApplication {
 		SpringApplication.run(G06rhApplication.class, args);
 	}
 
-	@Bean
-	public CommandLineRunner initialHoraiosData(HorariosRepository horarioRepository, EmpleadoRepository empleadoRepository) {
-		return (args) -> {	
-			horarioRepository.save(new HORARIOS(
-				LocalDate.of(2023, 4, 10), LocalTime.of(8, 57, 42), LocalTime.of(13, 2, 12), LocalTime.of(9, 0, 0), LocalTime.of(13, 0, 0), empleadoRepository.findById(1L).get()
-			));	
-		};
-	}
-
 }
