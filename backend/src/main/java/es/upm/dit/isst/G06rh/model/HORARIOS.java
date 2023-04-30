@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import java.time.*;
 
+
 @Entity
 public class HORARIOS {
     @Id
@@ -16,6 +17,9 @@ public class HORARIOS {
     private LocalTime horaSalida;
     private LocalTime horaDefEntrada;
     private LocalTime horaDefSalida;
+    private Long minutosTot;
+    private Long minutosDef;
+    private Long minutosExt;
 
     @ManyToOne
     @JoinColumn(name = "empleado_id")
@@ -33,6 +37,9 @@ public class HORARIOS {
         this.horaDefEntrada = horaDefEntrada;
         this.horaDefSalida = horaDefSalida;
         this.empleado = empleado;
+        this.minutosDef = Duration.between(horaDefEntrada, horaDefSalida).getSeconds();
+        this.minutosTot = Duration.between(horaEntrada, horaSalida).getSeconds();
+        this.minutosExt = minutosTot - minutosDef;
     }
     
 	public Long getId() {
@@ -82,6 +89,31 @@ public class HORARIOS {
     public void setHoraDefSalida(LocalTime horaDefSalida) {
         this.horaDefSalida = horaDefSalida;
     };
+
+    public Long getMinutosTot() {
+        return this.minutosTot;
+    }
+
+    public void setMinutosTot(Long minutosTot) {
+        this.minutosTot = minutosTot;
+    }
+
+    public Long getMinutosDef() {
+        return this.minutosDef;
+    }
+
+    public void setMinutosDef(Long minutosDef) {
+        this.minutosDef = minutosDef;
+    }
+
+    public Long getMinutosExt() {
+        return this.minutosExt;
+    }
+
+    public void setMinutosExt(Long minutosExt) {
+        this.minutosExt = minutosExt;
+    }
+
 	public EMPLEADO getEmpleado() {
 		return this.empleado;
 	}
