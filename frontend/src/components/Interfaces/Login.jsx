@@ -14,6 +14,7 @@ const Login = (props) => {
   const [error, setError] = useState('');
   const [userLogged, setUserLogged] = useContext(LoginContext)
 
+  
   useEffect(() =>{
     console.log(userLogged)
   }, [userLogged]);

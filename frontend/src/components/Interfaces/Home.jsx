@@ -2,7 +2,7 @@ import React, {useContext, useEffect, useState} from 'react';
 import './../../App.css';
 import logo from './../../assets/Frame 1.svg';
 import { LoginContext } from '../../App';
-import { Link  } from 'react-router-dom';
+import { Link, Navigate  } from 'react-router-dom';
 
 const Home = (props) => {
     const [userLogged, setUserLogged] = useContext(LoginContext);
@@ -12,7 +12,6 @@ const Home = (props) => {
     try {
         nombreCompleto = userLogged && JSON.parse(userLogged).nombreCompleto; 
     } catch (error) {
-        window.location.href = '/';
         console.log(`Error parsing JSON: ${error}`);
       }
     
@@ -46,22 +45,28 @@ const Home = (props) => {
       }, [userLogged]);
 
     return (
-        
+
         <div style={{ display: "flex", flexDirection: "column", justifyContent: "center", alignContent: "center", margin: "auto" }}>
-            <img className="logo" style={{ display: "flex", flexDirection: "column", justifyContent: "center", alignContent: "center", margin: "auto", width: "150px", height: "150px" }} src={logo}/>
-            <h1 style={{ textAlign: "center" }}>Bienvenido {nombreCompleto}</h1>
-            <h6 style={{ textAlign: "center" }}>¿No eres tú?, pincha <Link to="/" onClick={logout}>aquí</Link></h6>
+            {userLogged !== "undefined" ?
+            <div style={{ display: "flex", flexDirection: "column", justifyContent: "center", alignContent: "center", margin: "auto" }}>
+                <img className="logo" style={{ display: "flex", flexDirection: "column", justifyContent: "center", alignContent: "center", margin: "auto", width: "150px", height: "150px" }} src={logo}/>
+                <h1 style={{ textAlign: "center" }}>Bienvenido {nombreCompleto}</h1>
+                <h6 style={{ textAlign: "center" }}>¿No eres tú?, pincha <Link to="/" onClick={logout}>aquí</Link></h6>
 
-            <div style={{ display: "flex", flexDirection: "column", justifyContent: "center", alignContent: "space-around", margin: "auto" }}>
+                <div style={{ display: "flex", flexDirection: "column", justifyContent: "center", alignContent: "space-around", margin: "auto" }}>
 
-                <button className="btn btn-primary" style={{ height: "10vh", width: "50vw", marginBottom: "1vh", marginTop: "2vh" }} onClick={handleHorarios}>Control de horarios</button>
-                <button className="btn btn-primary" style={{ height: "10vh", width: "50vw", marginBottom: "1vh" }} onClick={handleAusencias}>Control de ausencias</button>
-                <button className="btn btn-primary" style={{ height: "10vh", width: "50vw", marginBottom: "1vh" }} onClick={handleNominas}>Gestión de nómina</button>
-                <button className="btn btn-primary" style={{ height: "10vh", width: "50vw", marginBottom: "1vh" }} onClick={handleContactos}>Contactos</button>
-                <button className="btn btn-primary" style={{ height: "10vh", width: "50vw", marginBottom: "1vh" }} onClick={handleNotificaciones}>Notificaciones</button>
-
-            </div>      
+                    <button className="btn btn-primary" style={{ height: "10vh", width: "50vw", marginBottom: "1vh", marginTop: "2vh" }} onClick={handleHorarios}>Control de horarios</button>
+                    <button className="btn btn-primary" style={{ height: "10vh", width: "50vw", marginBottom: "1vh" }} onClick={handleAusencias}>Control de ausencias</button>
+                    <button className="btn btn-primary" style={{ height: "10vh", width: "50vw", marginBottom: "1vh" }} onClick={handleNominas}>Gestión de nómina</button>
+                    <button className="btn btn-primary" style={{ height: "10vh", width: "50vw", marginBottom: "1vh" }} onClick={handleContactos}>Contactos</button>
+                    <button className="btn btn-primary" style={{ height: "10vh", width: "50vw", marginBottom: "1vh" }} onClick={handleNotificaciones}>Notificaciones</button>
+                </div>   
+            </div>   
+            :
+            <Navigate to={`/`}/>
+            }
         </div>
+
     )
 }
 

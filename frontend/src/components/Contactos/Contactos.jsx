@@ -17,7 +17,6 @@ let rec;
 try {
     rec = userLogged && JSON.parse(userLogged).rec; 
 } catch (error) {
-    window.location.href = '/';
     console.log(`Error parsing JSON: ${error}`);
   }
 
