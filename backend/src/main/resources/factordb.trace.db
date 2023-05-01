@@ -822,3 +822,8 @@ INSERT INTO AUSENCIAS (ID, AUS, BAJ, DESCRIPCION, FECHA_FIN, FECHA_INICIO, NAUS,
 	at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:659)
 	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61)
 	at java.base/java.lang.Thread.run(Unknown Source)
+2023-05-01 21:15:58 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Tabla "HORARIO" no encontrada
+Table "HORARIO" not found; SQL statement:
+ALTER TABLE HORARIO
+DROP COLUMN SEGUNDOS_EXT [42102-214]

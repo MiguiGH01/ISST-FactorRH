@@ -22,7 +22,13 @@ public class G06rhApplication {
 	public CommandLineRunner initialHoraiosData(HorariosRepository horarioRepository, EmpleadoRepository empleadoRepository) {
 		return (args) -> {	
 			horarioRepository.save(new HORARIOS(
-				LocalDate.of(2023, 4, 10), LocalTime.of(8, 57, 42), LocalTime.of(13, 2, 12), LocalTime.of(9, 0, 0), LocalTime.of(13, 0, 0), empleadoRepository.findById(1L).get()
+				LocalDate.of(2023, 5, 4), LocalTime.of(7, 57, 0), LocalTime.of(17, 2, 0), 20L , empleadoRepository.findById(1L).get()
+			));	
+			horarioRepository.save(new HORARIOS(
+				LocalDate.of(2023, 5, 5), LocalTime.of(8, 05, 0), LocalTime.of(17, 1, 0), 45L , empleadoRepository.findById(1L).get()
+			));	
+			horarioRepository.save(new HORARIOS(
+				LocalDate.of(2023, 5, 8), LocalTime.of(8, 14, 0), LocalTime.of(17, 56, 0), 30L , empleadoRepository.findById(1L).get()
 			));	
 		};
 	}

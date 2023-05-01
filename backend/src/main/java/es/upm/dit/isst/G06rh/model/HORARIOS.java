@@ -15,11 +15,9 @@ public class HORARIOS {
     private LocalDate fecha; 
     private LocalTime horaEntrada;
     private LocalTime horaSalida;
-    private LocalTime horaDefEntrada;
-    private LocalTime horaDefSalida;
     private Long minutosTot;
-    private Long minutosDef;
     private Long minutosExt;
+    private Long minutosPau;
 
     @ManyToOne
     @JoinColumn(name = "empleado_id")
@@ -30,16 +28,14 @@ public class HORARIOS {
     public HORARIOS() {
     }
 
-    public HORARIOS(LocalDate fecha, LocalTime horaEntrada, LocalTime horaSalida, LocalTime horaDefEntrada, LocalTime horaDefSalida, EMPLEADO empleado) {
+    public HORARIOS(LocalDate fecha, LocalTime horaEntrada, LocalTime horaSalida, Long minutosPau, EMPLEADO empleado) {
         this.fecha = fecha;
         this.horaEntrada = horaEntrada;
         this.horaSalida = horaSalida;
-        this.horaDefEntrada = horaDefEntrada;
-        this.horaDefSalida = horaDefSalida;
         this.empleado = empleado;
-        this.minutosDef = Duration.between(horaDefEntrada, horaDefSalida).getSeconds();
-        this.minutosTot = Duration.between(horaEntrada, horaSalida).getSeconds();
-        this.minutosExt = minutosTot - minutosDef;
+        this.minutosPau = minutosPau;
+        this.minutosTot = Duration.between(horaEntrada, horaSalida).toMinutes()- minutosPau;
+        this.minutosExt = minutosTot - 480;
     }
     
 	public Long getId() {
@@ -74,36 +70,12 @@ public class HORARIOS {
 		this.horaSalida = horaSalida;
 	}
 
-    public LocalTime getHoraDefEntrada() {
-        return this.horaDefEntrada;
-    }
-
-    public void setHoraDefEntrada(LocalTime horaDefEntrada) {
-        this.horaDefEntrada = horaDefEntrada;
-    }
-
-    public LocalTime getHoraDefSalida() {
-        return this.horaDefSalida;
-    }
-
-    public void setHoraDefSalida(LocalTime horaDefSalida) {
-        this.horaDefSalida = horaDefSalida;
-    };
-
     public Long getMinutosTot() {
         return this.minutosTot;
     }
 
     public void setMinutosTot(Long minutosTot) {
         this.minutosTot = minutosTot;
-    }
-
-    public Long getMinutosDef() {
-        return this.minutosDef;
-    }
-
-    public void setMinutosDef(Long minutosDef) {
-        this.minutosDef = minutosDef;
     }
 
     public Long getMinutosExt() {
@@ -113,6 +85,15 @@ public class HORARIOS {
     public void setMinutosExt(Long minutosExt) {
         this.minutosExt = minutosExt;
     }
+
+    public Long getMinutosPau() {
+        return this.minutosPau;
+    }
+
+    public void setMinutosPau(Long minutosPau) {
+        this.minutosPau = minutosPau;
+    }
+
 
 	public EMPLEADO getEmpleado() {
 		return this.empleado;
