@@ -5,48 +5,54 @@ import { Container, Col, Row, Button } from "react-bootstrap";
 import React, { useState } from 'react';
 import { Link, useNavigate } from "react-router-dom";
 import { MDBContainer, MDBInput, MDBCheckbox, MDBBtn, MDBIcon, MDBRow, MDBCol, MDBCard, MDBCardBody } from 'mdb-react-ui-kit';
-
+import axios from 'axios';
 
 const NominaEmpleados = (props) => {
     const { idNomina } = useParams(); // Accede a la ID desde props.match.params
-    const [file, setFile] = useState('');
 
     const idNominaNumero = parseInt(idNomina, 10);
     const empleado = props.empleados2.find(empleado => empleado.id === idNominaNumero);
 
 
-    const handleCrearNomina = (event) => {
-        setFile(event.target.files[0]);
-      };
-    
-      const handleSubmit = async (event) => {
-        event.preventDefault();
-    
-        const formData = new FormData();
-        formData.append('file', file);
-    
-        const nominaItem = {
-            file
-        }     
-          const requestOptions = {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: formData,
-            ...nominaItem
-          };
-          const json = await requestOptions.json();
-          console.log(json);
+    const crearNomina = async (pdfFile) => {
+       
+            const formData = new FormData();
+            formData.append('pdf', pdfFile);
         
+            const response = {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' }
+                
+            };
         
-        await fetch('http://localhost:8080/empleadosv2', requestOptions);
+            await fetch('http://localhost:8080/nominas/upload-pdf', response);
 
-        window.location.href = '/home';
-        
-        setFile('');
+        return {
+            success: true,
+            message: 'Archivo PDF subido exitosamente',
+            data: response.data
+        };
 
-      };
+      
+    }
     
-  
+    const handleCrearNomina = async (event) => {
+      
+        // Obtener archivo PDF del evento
+        const pdfFile = event.target.files[0];
+      
+        // Subir archivo PDF al servidor
+        const res = await crearNomina(pdfFile);
+      
+        // Hacer algo con la respuesta del servidor
+        if (res.success) {
+          console.log(res.data);
+        } else {
+          console.error(res.message);
+        }
+        
+       };
+
     if (!empleado) {
         return <div class="contenedor-flexbox" style={{ display: "flex", flexDirection: "column", justifyContent: "center", alignContent: "center", margin: "auto"}}>Empleado no encontrado</div>;
       }
@@ -84,12 +90,12 @@ const NominaEmpleados = (props) => {
             </Col>
         <Row>
 
-        <form onSubmit={handleSubmit} >
+        <form onSubmit={handleCrearNomina} >
       <label >
         Selecciona un archivo PDF:
-        <input type="file"/>
+        <input type="file" accept="application/pdf" onChange={crearNomina}/>
       </label>
-      <button type="submit" onChange={handleCrearNomina} className="btn btn-primary btn-block"> Subir nómina</button>
+      <button type="submit" className="btn btn-primary btn-block"> Subir nómina</button>
          </form>
 
      </Row>
@@ -100,7 +106,7 @@ const NominaEmpleados = (props) => {
                         <Row className="my-2">
                             <Card className="flex-fill">
                                 <Card.Body>
-                                    <div class="row">
+                                    <div class="row" key={empleadosItem.id}>
                                             <hr className="my-4" />
                                             <div class="col-6">
                                                 <p><b>Nominas de mes:</b> {empleadosItem.nominas}</p>
@@ -116,7 +122,7 @@ const NominaEmpleados = (props) => {
 
          
     </div>
-    )
+    );
 
 }
 
@@ -125,6 +131,23 @@ export default NominaEmpleados;
 
 
 /*
+  const requestOptions = {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: formData,
+            ...nominaItem
+          };
+          const json = await requestOptions.json();
+          console.log(json);
+        
+        
+        await fetch('http://localhost:8080/empleadosv2', requestOptions);
+
+        window.location.href = '/home';
+        
+        setFile('');
+
+
   {empleado.rec ?  <button type="submit"> Subir nómina</button>: <div></div>}
 
 

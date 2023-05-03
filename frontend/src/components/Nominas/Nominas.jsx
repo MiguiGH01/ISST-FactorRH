@@ -5,6 +5,7 @@ import { useState, useContext } from "react";
 import { LoginContext } from '../../App';
 import { Link, useNavigation, Navigate } from 'react-router-dom';
 
+
 const Nominas = (props) => {
 
     const empleadoList = props.empleados;
