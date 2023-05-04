@@ -7,11 +7,39 @@ import { Container, Col, Row, Button } from "react-bootstrap";
 
 const HorariosEmpleados = (props) => {
     const { idHorario } = useParams(); // Accede a la ID desde props.match.params
+    const [fecha, setFecha] = useState("2023-05-07");
+    const [horaEntrada, setHoraEntrada] = useState("09:05:21");
+    const [horaSalida, setHoraSalida] = useState("18:31:12");
+    const [minutosPau, setMinutosPau] = useState(50);
 
     const idHorarioNumero = parseInt(idHorario, 10);
 
     const empleado = props.empleados2.find(empleado => empleado.id === idHorarioNumero);
 
+
+    const handleEditarTrabador = async (e, id) => {
+        e.preventDefault();           
+
+            const horarioItem = {
+                fecha,
+                horaEntrada,
+                horaSalida,
+                minutosPau
+            };
+
+            const requestOptions = {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    ...horarioItem
+                }),
+            };
+
+            await fetch(`http://localhost:8080/horarios/${id}`, requestOptions);
+
+            window.location.href = `/horarios/${idHorarioNumero}`
+
+    };
 
     function convertirFecha(fechaString) {
         const partesFecha = fechaString.split('-');
@@ -47,14 +75,6 @@ const HorariosEmpleados = (props) => {
             return fecha.toLocaleTimeString('en-US', {hour12: false, hour: '2-digit', minute:'2-digit'});
         }
     }   
-
-    // function convertirFormatoHora(horaCompleta) {
-    //     const [horas, minutos, segundos] = horaCompleta.split(':');
-    //     const fecha = new Date(`1970-01-01T${horaCompleta}`);
-    //     // fecha.setHours(parseInt(horas));
-    //     // fecha.setMinutes(parseInt(minutos));
-    //     return fecha.toLocaleTimeString('en-US', {hour12: false, hour: '2-digit', minute:'2-digit'});
-    //   }
 
     function convertirFormatoHoraLong(totalMinutes) {
         const hours = Math.floor(totalMinutes / 60);
@@ -106,7 +126,7 @@ const HorariosEmpleados = (props) => {
                                         <p style={{marginTop:"1.2vh"}} ><b>Salida: </b>{<input type='time' style={{width:76}} pattern="\d{2}:\d{2}" defaultValue={convertirFormatoHora(horario.horaSalida)}/>}</p>
                                 </div>
                                 <div className="col-4">
-                                    <button className="btn btn-primary btn-block" style={{marginTop:"0.8vh"}}>Registrar hora</button>
+                                    <button className="btn btn-primary btn-block" style={{marginTop:"0.8vh"}} onClick={(e) => handleEditarTrabador(e, horario.id)}>Registrar hora</button>
                                 </div>
                             </div>
                         <hr className="my-2" style={{width:"90%", margin:"auto", border: "none", borderTop: "2px dashed black"}}/>

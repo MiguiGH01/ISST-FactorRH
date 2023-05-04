@@ -14,7 +14,7 @@ const NominaEmpleados =  (props) => {
     const idNominaNumero = parseInt(idNomina, 10);
     const empleado = props.empleados2.find(empleado => empleado.id === idNominaNumero);
     
-    const [pdf, setPdf] = useState(null);
+    const [file, setPdf] = useState(null);
     const [employeeId, setEmployeeId] = useState('');
   
     const handleSubmit = async (event) => {
@@ -22,13 +22,14 @@ const NominaEmpleados =  (props) => {
       
   try{
       const formData = new FormData();
-      formData.append('file', pdf);
-      formData.append('idEmpleado', empleado.id);
-
+      formData.append('file', file);
+  
       const response = await fetch ('http://localhost:8080/nominas/upload-pdf',{
         method: 'POST',
         body: formData
     });
+
+
     if (response.ok) {
         const data = await response.json();
         console.log(data);

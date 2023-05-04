@@ -89,7 +89,7 @@ function App() {
                             <Route path="/notificaciones" element={<Notificaciones notificaciones={notificaciones} empleados2={empleados2}/>} />
                             <Route path="/publicarnotificacion" element={<CrearNotificacion/>} />
                             <Route path="/crearTrabajador"element={<CrearTrabajador/>} />
-                            <Route path="/generarSolicitud/:idEmpleado "element={<FormularioAusencia empleados2={empleados2}/>} />
+                            <Route path="/generarSolicitud/:idEmpleado" element={<FormularioAusencia empleados2={empleados2}/>} />
                             <Route path="/editarEmpleado/:idEmpleado" element={<EditarEmpleado empleados2={empleados2}/>} />
                         </Route>
                     </Routes>

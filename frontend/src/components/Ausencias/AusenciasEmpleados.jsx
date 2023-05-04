@@ -55,7 +55,7 @@ const AusenciasEmpleados = (props) => {
             </Row>
             {empleado.id == id ?
                 <div className="btn" style={{ marginBottom: "1vh" }}>
-                    <Link to={`/generarSolicitud/${empleado.id}`}>
+                    <Link to={`/generarSolicitud/${id}`}>
                         <button className="btn btn-primary" style={{ marginBottom: "1vh" }}>Generar solicitud</button>
                     </Link>
                 </div> :
