@@ -15,7 +15,7 @@ public class NOMINA {
     private Double salario; 
     private LocalDateTime fechaEmision; 
     @Lob
-    String archivo; 
+    byte[] archivo; 
 
     @ManyToOne
     @JoinColumn(name = "empleado_id")
@@ -25,7 +25,7 @@ public class NOMINA {
     public NOMINA(){   
     }
 
-    public NOMINA(Double salario, LocalDateTime fechaEmision,String archivo, EMPLEADO empleado){
+    public NOMINA(Double salario, LocalDateTime fechaEmision, byte[] archivo, EMPLEADO empleado){
         this.salario = salario; 
         this.fechaEmision = fechaEmision; 
         this.archivo = archivo; 
@@ -58,11 +58,11 @@ public class NOMINA {
         this.fechaEmision = fechaEmision; 
     }
 
-    public String getArchivo(){
+    public byte[] getArchivo(){
         return this.archivo;
     }
 
-    public void setArchivo(String archivo){
+    public void setArchivo(byte[] archivo){
         this.archivo = archivo; 
     }
     

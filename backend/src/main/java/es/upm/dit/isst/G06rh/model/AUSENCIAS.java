@@ -19,9 +19,6 @@ public class AUSENCIAS {
     private Boolean vac;
     private Boolean baj;
     
-
-    
-
     @ManyToOne
     @JoinColumn(name = "empleado_id")
     @JsonBackReference

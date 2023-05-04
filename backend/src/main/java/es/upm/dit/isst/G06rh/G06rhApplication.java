@@ -19,3 +19,4 @@ public class G06rhApplication {
 	}
 
 }
+

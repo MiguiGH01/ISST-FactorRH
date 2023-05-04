@@ -60,10 +60,10 @@ public class NominaController {
     @PostMapping("/nominas/upload-pdf")
     public ResponseEntity<String> handleFileUpload(@RequestParam("file") MultipartFile file) {
         try {
-            byte[] pdfContent = file.getBytes();
-            String base64PdfContent = Base64.getEncoder().encodeToString(pdfContent);
+        //    byte[] pdfContent = file.getBytes();
+          //  String base64PdfContent = Base64.getEncoder().encodeToString(pdfContent);
             NOMINA nomina = new NOMINA();
-            nomina.setArchivo(base64PdfContent);
+            nomina.setArchivo(file.getBytes());
             nominaRepository.save(nomina);
             return ResponseEntity.ok("PDF uploaded successfully");
         } catch (IOException e) {

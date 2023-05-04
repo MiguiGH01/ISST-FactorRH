@@ -3,6 +3,7 @@ package es.upm.dit.isst.G06rh.controller;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -39,6 +40,13 @@ public class AusenciasController {
     ResponseEntity<AUSENCIAS> create(@RequestBody AUSENCIAS newAusencias) throws URISyntaxException {
         AUSENCIAS res = ausenciasRepository.save(newAusencias);
         return ResponseEntity.created(new URI("/ausencias/" + res.getId())).body(res);
+    }
+
+    @CrossOrigin(origins = "http://localhost:3000")
+    @GetMapping("/ausencias/{id}")
+    ResponseEntity<AUSENCIAS> read(@PathVariable long id) {
+        Optional<AUSENCIAS> ausencia = ausenciasRepository.findById(id);
+        return ausencia.map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
     }
     
 
