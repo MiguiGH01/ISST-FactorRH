@@ -2,7 +2,9 @@ package es.upm.dit.isst.G06rh.controller;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.time.Duration;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -18,16 +20,19 @@ import org.springframework.web.bind.annotation.RestController;
 
 import es.upm.dit.isst.G06rh.model.EMPLEADO;
 import es.upm.dit.isst.G06rh.model.HORARIOS;
-import es.upm.dit.isst.G06rh.repository.EmpleadoRepository;
+import es.upm.dit.isst.G06rh.repository.*;
 
 @RestController
 public class EmpleadoController {
 
     @Autowired
     private final  EmpleadoRepository empleadoRepository;
+    private final HorariosRepository horariosRepository;
 
-    public EmpleadoController(EmpleadoRepository n)  {
+
+    public EmpleadoController(EmpleadoRepository n, HorariosRepository m)  {
         this.empleadoRepository = n;
+        this.horariosRepository = m;
     }
 
     @CrossOrigin(origins = "http://localhost:3000")
@@ -74,6 +79,23 @@ public class EmpleadoController {
         EMPLEADO empleado = empleadoRepository.findById(empleadoId).get();
         return empleado.getHorarios();
     }
+
+    @CrossOrigin(origins = "http://localhost:3000")
+    @PostMapping("/empleadosv2/{empleadoId}/horarios")
+    public ResponseEntity<HORARIOS> create(@RequestBody HORARIOS newHorarios, @PathVariable Long empleadoId) {
+        EMPLEADO empleado = empleadoRepository.findById(empleadoId).get();
+    
+        // Agregar el nuevo horario al empleado
+        newHorarios.setEmpleado(empleado);
+        empleado.getHorarios().add(newHorarios);
+    
+        // Guardar el empleado actualizado en la base de datos
+        empleadoRepository.save(empleado);
+    
+        return ResponseEntity.ok(newHorarios);
+    }
+    
+
 
     @CrossOrigin(origins = "http://localhost:3000")
     @GetMapping("/empleadosv2/{empleadoId}/editarEmpleado")
