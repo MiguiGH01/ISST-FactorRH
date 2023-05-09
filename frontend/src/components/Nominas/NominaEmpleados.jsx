@@ -14,31 +14,31 @@ const NominaEmpleados =  (props) => {
     const idNominaNumero = parseInt(idNomina, 10);
     const empleado = props.empleados2.find(empleado => empleado.id === idNominaNumero);
     
-    const [pdfUrl, setPdf] = useState(null);
+    const [file, setPdf] = useState(null);
 
+    const handleSubmit = async (event) => {
+        event.preventDefault();
 
-    const handleSubmit = async (event, idEmpleado) => {
-      event.preventDefault();
-  
-  try{
-    console.log(idNomina);
-      const formData = new FormData();
-      formData.append('file', pdfUrl);
-      formData.append('idNomina', idNomina);
-  
-      const response = await fetch ('http://localhost:8080/nominas/upload-pdf',{
-        method: 'POST',
-        body: formData
-    });
+    try{
+        const formData = new FormData();
+        formData.append('idEmpleado', empleado.id);
+        formData.append('file', file);
 
-    console.log(response);
+        console.log(file);
+        console.log(empleado.id);
 
-    } catch (error) {
-      console.log('No tira');
-      alert(error.message);
+        const response = await fetch (`http://localhost:8080/nominas/upload-pdf`,{
+          method: 'POST',
+          body: formData
+         });
+         console.log(response);
+
+     } catch (error) {
+     console.log('No tira');
+     alert(error.message);
+         }
+
     }
-   
-}
     const handlePdfChange = (event) => {
       setPdf(event.target.files[0]);
     }
@@ -49,7 +49,8 @@ const NominaEmpleados =  (props) => {
  
     return (
     <div class="contenedor-flexbox" style={{ display: "flex", flexDirection: "column", justifyContent: "center", alignContent: "center", margin: "auto"}}>
-        <Row>
+     
+       <Row>
             <Liner/>
         </Row>
         <Row style={{ display: "flex", flexDirection: "column", justifyContent: "center", alignContent: "center", margin: "auto"}}>
@@ -79,7 +80,8 @@ const NominaEmpleados =  (props) => {
                 </div>
             </Col>
         <Row>
-
+       
+     
         <form onSubmit={handleSubmit} >
       <label >
         Selecciona un archivo PDF:
@@ -89,15 +91,7 @@ const NominaEmpleados =  (props) => {
          </form>
 
      </Row>
-     <div>
-    {/* Resto del código */}
-    {pdfUrl && (
-      <object data={pdfUrl} type="application/pdf" width="100%" height="600">
-        <p>Tu navegador no admite PDFs. <a href={pdfUrl}>Haz clic aquí para descargar el archivo PDF.</a></p>
-      </object>
-    )}
-  </div>
-
+    
      <div>
      {empleado.nominas.map((empleadosItem) => (
                     <Col md>

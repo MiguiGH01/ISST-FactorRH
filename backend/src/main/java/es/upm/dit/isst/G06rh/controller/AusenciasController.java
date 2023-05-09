@@ -39,7 +39,7 @@ public class AusenciasController {
     @PostMapping("/bajasyausencias")
     ResponseEntity<AUSENCIAS> create(@RequestBody AUSENCIAS newAusencias) throws URISyntaxException {
         AUSENCIAS res = ausenciasRepository.save(newAusencias);
-        return ResponseEntity.created(new URI("/ausencias/" + res.getId())).body(res);
+        return ResponseEntity.created(new URI("/bajasyausencias/" + res.getId())).body(res);
     }
 
     @CrossOrigin(origins = "http://localhost:3000")

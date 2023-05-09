@@ -45,8 +45,8 @@ const FormularioAusencia = () => {
             };
             
             
-            
-           await fetch('http://localhost:8080/bajasyausencias/${id}', requestOptions);
+            console.log(requestOptions);
+           await fetch(`http://localhost:8080/bajasyausencias`, requestOptions);
 
           //  console.log(fetch('http://localhost:8080/ausencias/${id}', requestOptions));
 
