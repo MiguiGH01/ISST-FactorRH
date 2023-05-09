@@ -83,7 +83,7 @@ const EditarEmpleado = (props) => {
                                 </div>
                             </div>
                             <MDBInput wrapperClass='mb-4 w-100' placeholder='Correo Electrónico' defaultValue={correoElectronico} id='correoElectronico' type='email' onChange={(event) => setCorreoElectronico(event.target.value)}></MDBInput>              
-                            <MDBInput wrapperClass='mb-4 w-100' placeholder='Contraseña' defaultValue={password} id='password' onChange={(event) => setPassword(event.target.value)}/>
+                            <MDBInput wrapperClass='mb-4 w-100' placeholder='Contraseña' defaultValue={password} id='password' type='password' onChange={(event) => setPassword(event.target.value)}/>
                             <MDBInput wrapperClass='mb-4 w-100' placeholder='Departamento' defaultValue={departamento} id='departamento' onChange={(event) => setDepartamento(event.target.value)} />
                             <MDBInput wrapperClass='mb-4 w-100' placeholder='Puesto' defaultValue={puesto} id='puesto' onChange={(event) => setPuesto(event.target.value)}/>
                         </form>

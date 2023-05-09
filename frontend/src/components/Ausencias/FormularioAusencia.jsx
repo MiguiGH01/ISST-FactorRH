@@ -22,7 +22,6 @@ const FormularioAusencia = () => {
 
     const handlePublicarSolicitud = async (e) => {
         e.preventDefault();
-        console.log('hey');  
         
             const solicitudItem = {
                 fechaInicio,
@@ -39,18 +38,14 @@ const FormularioAusencia = () => {
             const requestOptions = {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    ...solicitudItem
-                }),
+                body: JSON.stringify(solicitudItem)
             };
             
             
-            console.log(requestOptions);
-           await fetch(`http://localhost:8080/bajasyausencias`, requestOptions);
+            
+           await fetch(`http://localhost:8080/empleadosv2/${idEmpleado}/ausencias`, requestOptions);
 
-          //  console.log(fetch('http://localhost:8080/ausencias/${id}', requestOptions));
-
-           // window.location.href = `/bajasyausencias/${id}`;
+           window.location.href = `/bajasyausencias/${idEmpleado}`;
         
     };
 

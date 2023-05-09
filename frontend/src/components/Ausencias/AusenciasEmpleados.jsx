@@ -14,10 +14,12 @@ const AusenciasEmpleados = (props) => {
     const { idBaja } = useParams(); // Accede a la ID desde props.match.params
 
     let id;
+    let rec;
 
 
     try {
         id = userLogged && JSON.parse(userLogged).id;
+        rec = userLogged && JSON.parse(userLogged).rec;
     } catch (error) {
         console.log(`Error parsing JSON: ${error}`);
     }

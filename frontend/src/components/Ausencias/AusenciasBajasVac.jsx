@@ -59,12 +59,12 @@ const AusenciasBajasVac = (props) => {
 
                         <Row>
                             <h2 style={{ justifyContent: "center", alignContent: "center", display: "flex" }}>Control de ausencias, bajas y vacaciones de los trabajadores</h2>
-                            <Link to={`/bajasyausencias/${id}`}>
-                                <button className="btn btn-primary" style={{ justifyContent: "center", alignContent: "center", display: "flex" }}>Ver mis ausencias</button>
-                            </Link>
-                            <div className="funciones" style={{ justifyContent: "center", alignContent: "center", display: "flex" }}>
-                                <input type="text" id="filtro" placeholder="Filtrar por nombre o correo" value={filtro} onChange={handleFilterChange}
-                                    style={{ alignItems: 'right', width: '30rem', marginBottom: "1vh" }}></input>
+                            <div className="funciones" style={{justifyContent: "center", alignContent: "center", display: "flex", margin: 2}}>
+                                <input  type="text" id="filtro" placeholder="Filtrar por nombre o correo" value={filtro} onChange={handleFilterChange}
+                                    style={{alignItems:'right', width: '30rem', marginBottom:"1vh"}}></input>
+                                <Link to={`/bajasyausencias/${id}`} style={{marginLeft: "1vw"}}>
+                                    <button className="btn btn-primary" style={{marginBottom:"1vh"}}>Ver mis ausencias</button>
+                                </Link>
                             </div>
 
                         </Row>

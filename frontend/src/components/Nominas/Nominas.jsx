@@ -66,9 +66,12 @@ const Nominas = (props) => {
                 </Row><Col>
                         <Row>
                             <h2 style={{ justifyContent: "center", alignContent: "center", display: "flex" }}>Nómina de empleados</h2>
-                            <div className="funciones" style={{ justifyContent: "center", alignContent: "center", display: "flex" }}>
-                                <input type="text" id="filtro" placeholder="Filtrar por nombre o correo" value={filtro} onChange={handleFilterChange}
-                                    style={{ alignItems: 'right', width: '30rem', marginBottom: "1vh" }}></input>
+                            <div className="funciones" style={{justifyContent: "center", alignContent: "center", display: "flex", margin: 2}}>
+                                <input  type="text" id="filtro" placeholder="Filtrar por nombre o correo" value={filtro} onChange={handleFilterChange}
+                                    style={{alignItems:'right', width: '30rem', marginBottom:"1vh"}}></input>
+                                <Link to={`/nominas/${id}`} style={{marginLeft: "1vw"}}>
+                                    <button className="btn btn-primary" style={{marginBottom:"1vh"}}>Ver mis nóminas</button>
+                                </Link>
                             </div>
                         </Row>
                     </Col><Row>

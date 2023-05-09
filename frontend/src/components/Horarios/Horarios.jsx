@@ -62,7 +62,7 @@ const Horarios = (props) => {
                             <input  type="text" id="filtro" placeholder="Filtrar por nombre o correo" value={filtro} onChange={handleFilterChange}
                                 style={{alignItems:'right', width: '30rem', marginBottom:"1vh"}}></input>
                             <Link to={`/horarios/${id}`} style={{marginLeft: "1vw"}}>
-                                <button className="btn btn-primary" style={{marginBottom:"1vh"}}>Ver tu horario</button>
+                                <button className="btn btn-primary" style={{marginBottom:"1vh"}}>Ver mis Horarios</button>
                             </Link>
                         </div>
                     </Row>

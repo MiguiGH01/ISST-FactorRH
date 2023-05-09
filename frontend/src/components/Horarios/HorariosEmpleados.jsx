@@ -36,29 +36,39 @@ const HorariosEmpleados = (props) => {
     const handleCrearTrabajador = async (e) => {
         e.preventDefault();
 
-        const nuevoTrabajador = {
-          fecha: "2023-05-09",
-          horaEntrada: "00:00:00",
-          horaSalida: "00:00:00",
-          minutosPau: 0,
-          minutosExt: 0,
-          minutosTot: 0
-        };
+        setEndDate(formatDate(endDate));
+        setStartDate(formatDate(startDate));
+        let fechas = getFechasIntermedias(startDate,endDate);
 
-        console.log(nuevoTrabajador)
-      
-        const requestOptions = {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(nuevoTrabajador),
-        };
-        console.log(requestOptions)
-      
-        const response = await fetch(`http://localhost:8080/empleadosv2/${idHorarioNumero}/horarios`, requestOptions);
+        for (let i = 0; i< fechas.length; i++) {
+
+            const nuevoTrabajador = {
+            fecha: fechas[i],
+            horaEntrada: "00:00:00",
+            horaSalida: "00:00:00",
+            minutosPau: 0,
+            minutosExt: 0,
+            minutosTot: 0
+            };
+
+            console.log(nuevoTrabajador)
+        
+            const requestOptions = {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(nuevoTrabajador),
+            };
+            console.log(requestOptions)
+        
+            const response = await fetch(`http://localhost:8080/empleadosv2/${idHorarioNumero}/horarios`, requestOptions);
+        }
+        window.location.href = `/horarios/${idHorarioNumero}`
     };
 
     const handleEditarTrabador = async (e, id) => {
-        e.preventDefault();           
+        e.preventDefault(); 
+        
+
             const horarioItem = {
                 fecha,
                 horaEntrada,
@@ -102,9 +112,38 @@ const HorariosEmpleados = (props) => {
                         minDate={startDate}
                     />
                 </div>
-                <button onClick={onClose}>Añadir</button>
+                <div className="funciones" style={{justifyContent: "center", alignContent: "center", display: "flex", margin: 2}}> 
+                    <button class="btn btn-success" style={{marginRight:"1vw"}} onClick={onClose}>Añadir</button>
+                    <button class="btn btn-danger" onClick={() => setShowPopup(false)}>Cerrar</button>
+                </div>
             </div>
         );
+    }
+
+    function getFechasIntermedias(fechaInicio, fechaFin) {
+        const fechas = [];
+        
+        let fechaActual = new Date(fechaInicio);
+        const fechaFinal = new Date(fechaFin);
+
+        
+        while (fechaActual <= fechaFinal) {
+            console.log(fechaActual)
+            fechas.push(formatDate(fechaActual  ));
+            fechaActual.setDate(fechaActual.getDate() + 1);
+            console.log(fechas);
+        }
+        
+        return fechas;
+    }
+      
+
+    function formatDate(dateString) {
+        const date = new Date(dateString);
+        const year = date.getFullYear();
+        const month = ('0' + (date.getMonth() + 1)).slice(-2);
+        const day = ('0' + date.getDate()).slice(-2);
+        return `${year}-${month}-${day}`;
     }
 
     function convertirFecha(fechaString) {
@@ -165,6 +204,9 @@ const HorariosEmpleados = (props) => {
         }
       }
     
+    useEffect(() =>{
+        console.log(formatDate(startDate))
+    }, [rec]);
       
 
     if (!empleado) {
@@ -179,7 +221,6 @@ const HorariosEmpleados = (props) => {
         <Row style={{ display: "flex", flexDirection: "column", justifyContent: "center", alignContent: "center", margin: "auto"}}>
             <div className="funciones" style={{justifyContent: "center", alignContent: "center", display: "flex", margin: 2}}>      
                 <h2><b>{empleado.nombreCompleto}</b></h2> 
-                <button onClick={(e) => handleCrearTrabajador(e)}></button>
                 {rec && <button className="btn btn-primary btn-block" style= {{marginLeft:"1vw"}} onClick={() => setShowPopup(true)}>Añadir horarios</button>}
             </div>
         </Row>
