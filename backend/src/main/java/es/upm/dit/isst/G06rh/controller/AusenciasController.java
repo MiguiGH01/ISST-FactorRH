@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import es.upm.dit.isst.G06rh.model.*;
 import es.upm.dit.isst.G06rh.repository.*;
@@ -34,12 +36,22 @@ public class AusenciasController {
     List<AUSENCIAS> readAll(){
         return (List<AUSENCIAS>) ausenciasRepository.findAll();
     }
+    @CrossOrigin(origins = "http://localhost:3000")
+    @RequestMapping(value = "/bajasyausencias/{id}", method = RequestMethod.OPTIONS)
+    public ResponseEntity handleOptions() {
+        return ResponseEntity.ok()
+            .header("Access-Control-Allow-Origin", "http://localhost:3000")
+            .header("Access-Control-Allow-Methods", "POST, GET, OPTIONS")
+            .header("Access-Control-Allow-Headers", "Content-Type")
+            .build();
+    }
 
     @CrossOrigin(origins = "http://localhost:3000")
-    @PostMapping("/bajasyausencias")
-    ResponseEntity<AUSENCIAS> create(@RequestBody AUSENCIAS newAusencias) throws URISyntaxException {
+    @PostMapping("/bajasyausencias/{id}")
+    ResponseEntity<AUSENCIAS> create(@PathVariable Long id, @RequestBody AUSENCIAS newAusencias) throws URISyntaxException {
+      newAusencias.setId(id);
         AUSENCIAS res = ausenciasRepository.save(newAusencias);
-        return ResponseEntity.created(new URI("/bajasyausencias/" + res.getId())).body(res);
+        return ResponseEntity.created(new URI("/ausencias/" + res.getId())).body(res);
     }
 
     @CrossOrigin(origins = "http://localhost:3000")

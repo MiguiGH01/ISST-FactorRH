@@ -19,8 +19,6 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.bind.annotation.*;
 
-import es.upm.dit.isst.G06rh.model.EMPLEADO;
-import es.upm.dit.isst.G06rh.model.NOMINA;
 import es.upm.dit.isst.G06rh.model.*;
 import es.upm.dit.isst.G06rh.repository.*;
 
@@ -29,11 +27,9 @@ public class NominaController {
 
     @Autowired
     private final  NominaRepository nominaRepository;
-    private final  EmpleadoRepository empleadoRepository;
 
-    public NominaController(NominaRepository n, EmpleadoRepository m)  {
+    public NominaController(NominaRepository n)  {
         this.nominaRepository = n;
-        this.empleadoRepository = m;
     }
 
     @CrossOrigin(origins = "http://localhost:3000")
@@ -60,15 +56,24 @@ public class NominaController {
     }
 
     @CrossOrigin(origins = "http://localhost:3000")
-    @PostMapping("/nominas/upload-pdf/")
-    public ResponseEntity<String> handleFileUpload(@RequestParam("file") MultipartFile file, @RequestParam("idNomina") long empleadoId) {
+    @RequestMapping(value = "/nominas/upload-pdf/{idEmpleado}", method = RequestMethod.OPTIONS)
+    public ResponseEntity handleOptions() {
+        return ResponseEntity.ok()
+            .header("Access-Control-Allow-Origin", "http://localhost:3000")
+            .header("Access-Control-Allow-Methods", "POST, GET, OPTIONS")
+            .header("Access-Control-Allow-Headers", "Content-Type")
+            .build();
+    }
+
+    @CrossOrigin(origins = "http://localhost:3000")
+    @PostMapping("/nominas/upload-pdf/{idEmpleado}")
+    public ResponseEntity<String> handleFileUpload(@RequestParam("file") MultipartFile file, @PathVariable EMPLEADO idNomina) {
         try {
         //    byte[] pdfContent = file.getBytes();
           //  String base64PdfContent = Base64.getEncoder().encodeToString(pdfContent);
             NOMINA nomina = new NOMINA();
             nomina.setArchivo(file.getBytes());
-            EMPLEADO empleado = empleadoRepository.findById(empleadoId).get();
-            nomina.setEmpleado(empleado);
+            nomina.setEmpleado(idNomina);
             nominaRepository.save(nomina);
             return ResponseEntity.ok("PDF uploaded successfully");
         } catch (IOException e) {

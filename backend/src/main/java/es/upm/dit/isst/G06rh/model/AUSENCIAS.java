@@ -109,5 +109,12 @@ public class AUSENCIAS {
     }
 
    
+	public EMPLEADO getEmpleado() {
+		return this.empleado;
+	}
+
+	public void setEmpleado(EMPLEADO empleado) {
+		this.empleado = empleado;
+	}
 
 }

@@ -1,5 +1,6 @@
 package es.upm.dit.isst.G06rh.controller;
 
+import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.time.Duration;
@@ -16,10 +17,14 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
+import es.upm.dit.isst.G06rh.model.AUSENCIAS;
 import es.upm.dit.isst.G06rh.model.EMPLEADO;
 import es.upm.dit.isst.G06rh.model.HORARIOS;
+import es.upm.dit.isst.G06rh.model.NOMINA;
 import es.upm.dit.isst.G06rh.repository.*;
 
 @RestController
@@ -27,12 +32,10 @@ public class EmpleadoController {
 
     @Autowired
     private final  EmpleadoRepository empleadoRepository;
-    private final HorariosRepository horariosRepository;
 
 
-    public EmpleadoController(EmpleadoRepository n, HorariosRepository m)  {
+    public EmpleadoController(EmpleadoRepository n)  {
         this.empleadoRepository = n;
-        this.horariosRepository = m;
     }
 
     @CrossOrigin(origins = "http://localhost:3000")
@@ -80,6 +83,13 @@ public class EmpleadoController {
         return empleado.getHorarios();
     }
 
+     @CrossOrigin(origins = "http://localhost:3000")
+    @GetMapping("/empleadosv2/{empleadoId}/ausencias")
+    public List<AUSENCIAS> obtenerAusenciasDeEmpleado(@PathVariable Long empleadoId) {
+        EMPLEADO empleado = empleadoRepository.findById(empleadoId).get();
+        return empleado.getAusencias();
+    }
+
     @CrossOrigin(origins = "http://localhost:3000")
     @PostMapping("/empleadosv2/{empleadoId}/horarios")
     public ResponseEntity<HORARIOS> create(@RequestBody HORARIOS newHorarios, @PathVariable Long empleadoId) {
@@ -94,6 +104,43 @@ public class EmpleadoController {
     
         return ResponseEntity.ok(newHorarios);
     }
+
+    @CrossOrigin(origins = "http://localhost:3000")
+    @PostMapping("/empleadosv2/{empleadoId}/ausencias")
+    public ResponseEntity<AUSENCIAS> create(@RequestBody AUSENCIAS newAusencia, @PathVariable Long empleadoId) {
+        EMPLEADO empleado = empleadoRepository.findById(empleadoId).get();
+    
+        // Agregar el nuevo horario al empleado
+        newAusencia.setEmpleado(empleado);
+        empleado.getAusencias().add(newAusencia);
+    
+        // Guardar el empleado actualizado en la base de datos
+        empleadoRepository.save(empleado);
+    
+        return ResponseEntity.ok(newAusencia);
+    }
+
+    @CrossOrigin(origins = "http://localhost:3000")
+    @PostMapping("/empleadosv2/{empleadoId}/nominas")
+    public ResponseEntity<NOMINA> create(@RequestParam("file") MultipartFile file, @PathVariable Long empleadoId) {
+        EMPLEADO empleado = empleadoRepository.findById(empleadoId).get();
+            
+        try {
+            NOMINA nomina = new NOMINA();
+            nomina.setArchivo(file.getBytes());
+            nomina.setEmpleado(empleado);
+
+            empleado.getNominas().add(nomina);
+        
+            // Guardar el empleado actualizado en la base de datos
+            empleadoRepository.save(empleado);
+    
+            return ResponseEntity.ok(nomina);
+        } catch (IOException e) {
+            e.printStackTrace();
+            return ResponseEntity.badRequest().body(null);
+        }   
+}
     
 
 
